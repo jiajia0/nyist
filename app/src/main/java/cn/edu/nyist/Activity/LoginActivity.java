@@ -5,10 +5,15 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import cn.edu.nyist.Entity.Student;
-import cn.edu.nyist.HttpHelper.Presenter.LoginPresenter;
-import cn.edu.nyist.HttpHelper.Views.LoginView;
+import cn.edu.nyist.Entity.Teacher;
+import cn.edu.nyist.HttpHelper.Presenter.StudentPresenter;
+import cn.edu.nyist.HttpHelper.Presenter.TeacherPresenter;
+import cn.edu.nyist.HttpHelper.Views.StudentView;
+import cn.edu.nyist.HttpHelper.Views.TeacherView;
 import cn.edu.nyist.LogUtil.Logger;
 import cn.edu.nyist.R;
 import cn.edu.nyist.Widget.ViewHolder;
@@ -18,12 +23,16 @@ import cn.edu.nyist.Widget.ViewHolder;
  * DESCRIPTION : 登陆Activity
  */
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener, LoginView {
+public class LoginActivity extends BaseActivity implements View.OnClickListener, StudentView, TeacherView {
 
     EditText mUsername;
     EditText mPassword;
+    RadioGroup mRadioGroup;
+    RadioButton mStudentButton;
+    RadioButton mTeacherButton;
 
-    LoginPresenter mLoginPresenter;
+    StudentPresenter mStudentPresenter;
+    TeacherPresenter mTeacherPresenter;
 
     @Override
     protected int getLayoutId() {
@@ -35,6 +44,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         setTitle("");
         mUsername = holder.get(R.id.username);
         mPassword = holder.get(R.id.password);
+        mRadioGroup = holder.get(R.id.stu_or_tea);
+        mStudentButton = holder.get(R.id.stu_radio);
+        mTeacherButton = holder.get(R.id.tea_radio);
 
         holder.setOnClickListener(this, R.id.login);
     }
@@ -42,9 +54,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void initDatas() {
         super.initDatas();
-        mLoginPresenter = new LoginPresenter(this);
-        mLoginPresenter.onCreate();
-        mLoginPresenter.attachView(this);
+        mStudentPresenter = new StudentPresenter(this);
+        mStudentPresenter.onCreate();
+        mStudentPresenter.attachView(this);
+
+        mTeacherPresenter = new TeacherPresenter(this);
+        mTeacherPresenter.onCreate();
+        mTeacherPresenter.attachView(this);
     }
 
     @Override
@@ -109,7 +125,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     toastShort("学号或密码不能为空");
                     return;
                 }
-                mLoginPresenter.login(name, pswd);
+                if (mStudentButton.isChecked()) {
+                    mStudentPresenter.login(name, pswd);
+                }
+                if (mTeacherButton.isChecked()) {
+                    mTeacherPresenter.login(name, pswd);
+                }
                 break;
         }
     }
@@ -120,9 +141,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
      */
     @Override
     public void onSuccess(Student student) {
-        Logger.d("status:" + student.getStatus());
+        Logger.d("student:status:" + student.getStatus());
         if (student.getStatus() == 0) {
             Logger.d("student:" + student.getData().getName());
+        }
+    }
+
+    @Override
+    public void onSuccess(Teacher teacher) {
+        Logger.d("teacher:status:" + teacher.getStatus());
+        if (teacher.getStatus() == 0) {
+            Logger.d("teacher:" + teacher.getData().getName());
         }
     }
 

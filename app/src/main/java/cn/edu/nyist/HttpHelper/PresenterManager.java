@@ -2,7 +2,8 @@ package cn.edu.nyist.HttpHelper;
 
 import android.content.Context;
 
-import cn.edu.nyist.HttpHelper.Presenter.LoginPresenter;
+import cn.edu.nyist.HttpHelper.Presenter.StudentPresenter;
+import cn.edu.nyist.HttpHelper.Presenter.TeacherPresenter;
 
 /**
  * Created by Leafage on 2018/5/9 8:58.
@@ -26,8 +27,12 @@ public class PresenterManager {
         return sPresenterManager;
     }
 
-    public LoginPresenter getLoginPresenter(Context context) {
-        return new LoginPresenter(context);
+    public StudentPresenter getStudentPresenter(Context context) {
+        return new StudentPresenter(context);
+    }
+
+    public TeacherPresenter getTeacherPresenter(Context context) {
+        return new TeacherPresenter(context);
     }
 
 }

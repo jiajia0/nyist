@@ -2,7 +2,7 @@ package cn.edu.nyist.Common;
 
 /**
  * Created by Leafage on 2018/5/7 11:54.
- * DESCRIPTION : 全局变量
+ * DESCRIPTION : 全局变量不可更改
  */
 
 public interface Constant {

@@ -7,7 +7,7 @@ import cn.edu.nyist.Entity.Student;
  * DESCRIPTION :
  */
 
-public interface LoginView extends BaseView {
+public interface StudentView extends BaseView {
     void onSuccess(Student student);
     void onError(String result);
 }

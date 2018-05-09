@@ -2,6 +2,7 @@ package cn.edu.nyist.HttpHelper;
 
 import cn.edu.nyist.Common.Constant;
 import cn.edu.nyist.Entity.Student;
+import cn.edu.nyist.Entity.Teacher;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -17,4 +18,9 @@ public interface HttpService {
     @FormUrlEncoded
     @POST(Constant.STU_LOGIN)
     Observable<Student> login(@Field("id") String username, @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST(Constant.TEA_LOGIN)
+    Observable<Teacher> teaLogin(@Field("id") String username, @Field("password") String password);
+
 }

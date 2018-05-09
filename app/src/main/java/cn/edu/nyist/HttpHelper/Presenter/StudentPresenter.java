@@ -1,12 +1,10 @@
 package cn.edu.nyist.HttpHelper.Presenter;
 
 import android.content.Context;
-import android.view.View;
 
 import cn.edu.nyist.Entity.Student;
 import cn.edu.nyist.HttpHelper.Views.BaseView;
-import cn.edu.nyist.HttpHelper.Views.LoginView;
-import cn.edu.nyist.LogUtil.Logger;
+import cn.edu.nyist.HttpHelper.Views.StudentView;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -14,16 +12,16 @@ import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Leafage on 2018/5/9 8:36.
- * DESCRIPTION : 处理Login流程
+ * DESCRIPTION : 学生交互类
  */
 
-public class LoginPresenter extends BasePresenter {
+public class StudentPresenter extends BasePresenter {
     private Context mContext;
     private CompositeSubscription mCompositeSubscription;
-    private LoginView mLoginView;
+    private StudentView mStudentView;
     private Student mStudent;
 
-    public LoginPresenter(Context context) {
+    public StudentPresenter(Context context) {
         this.mContext = context;
     }
 
@@ -42,7 +40,7 @@ public class LoginPresenter extends BasePresenter {
 
     @Override
     public void attachView(BaseView view) {
-        mLoginView = (LoginView)view;
+        mStudentView = (StudentView)view;
     }
 
     public void login(String username, String password) {
@@ -53,13 +51,13 @@ public class LoginPresenter extends BasePresenter {
             @Override
             public void onCompleted() {
                 if (mStudent != null) {
-                    mLoginView.onSuccess(mStudent);
+                    mStudentView.onSuccess(mStudent);
                 }
             }
 
             @Override
             public void onError(Throwable e) {
-                mLoginView.onError(e.getMessage());
+                mStudentView.onError(e.getMessage());
             }
 
             @Override
@@ -68,4 +66,5 @@ public class LoginPresenter extends BasePresenter {
             }
         }));
     }
+
 }

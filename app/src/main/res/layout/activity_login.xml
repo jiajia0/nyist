@@ -53,7 +53,7 @@
                 android:layout_height="36dp"
                 android:layout_marginLeft="6dp"
                 android:background="@null"
-                android:hint="Email / 用户名"
+                android:hint="学号"
                 android:inputType="textEmailAddress|text"
                 android:textSize="16sp"/>
 
@@ -88,6 +88,34 @@
                 android:layout_marginTop="2dp"
                 android:background="@drawable/horizontal_line"/>
         </android.support.design.widget.TextInputLayout>
+
+
+        <RadioGroup
+            android:id="@+id/stu_or_tea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/stu_radio"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:checked="true"
+                android:gravity="center"
+                android:text="学生"
+                >
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/tea_radio"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:checked="false"
+                android:gravity="center"
+                android:text="教师">
+            </RadioButton>
+        </RadioGroup>
 
 
         <View

@@ -3,6 +3,7 @@ package cn.edu.nyist.HttpHelper;
 import android.content.Context;
 
 import cn.edu.nyist.Entity.Student;
+import cn.edu.nyist.Entity.Teacher;
 import rx.Observable;
 
 /**
@@ -33,7 +34,7 @@ public class DataManager {
     }
 
     /**
-     * 登陆请求
+     * 学生登陆请求
      *
      * @param username 学号
      * @param password 密码
@@ -42,5 +43,10 @@ public class DataManager {
     public Observable<Student> login(Context context, String username, String password) {
         mHttpService = mHttpHelper.setContext(context).getServer();
         return mHttpService.login(username, password);
+    }
+
+    public Observable<Teacher> teaLogin(Context context, String username, String password){
+        mHttpService = mHttpHelper.setContext(context).getServer();
+        return mHttpService.teaLogin(username, password);
     }
 }
