@@ -1,8 +1,11 @@
 package cn.edu.nyist.HttpHelper.Presenter;
 
 import android.content.Context;
+import android.view.View;
 
 import cn.edu.nyist.Entity.Student;
+import cn.edu.nyist.HttpHelper.Views.BaseView;
+import cn.edu.nyist.HttpHelper.Views.LoginView;
 import cn.edu.nyist.LogUtil.Logger;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -17,6 +20,8 @@ import rx.subscriptions.CompositeSubscription;
 public class LoginPresenter extends BasePresenter {
     private Context mContext;
     private CompositeSubscription mCompositeSubscription;
+    private LoginView mLoginView;
+    private Student mStudent;
 
     public LoginPresenter(Context context) {
         this.mContext = context;
@@ -35,31 +40,31 @@ public class LoginPresenter extends BasePresenter {
         }
     }
 
+    @Override
+    public void attachView(BaseView view) {
+        mLoginView = (LoginView)view;
+    }
+
     public void login(String username, String password) {
-        Logger.d("login：" + username + password);
         mCompositeSubscription.add(mDataManager.login(mContext, username, password)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Observer<Student>() {
             @Override
             public void onCompleted() {
-                Logger.d("login：" + "onCompleted");
+                if (mStudent != null) {
+                    mLoginView.onSuccess(mStudent);
+                }
             }
 
             @Override
             public void onError(Throwable e) {
-                Logger.d("login：" + "onError" + e.getMessage());
+                mLoginView.onError(e.getMessage());
             }
 
             @Override
             public void onNext(Student student) {
-                Logger.d("login：" + "onNext");
-
-                Logger.d("login:" + student.getStatus());
-
-                if (student.getStatus() == 0) {
-                    Logger.d("login:" + student.getData().getName());
-                }
+                mStudent = student;
             }
         }));
     }

@@ -1,8 +1,8 @@
 package cn.edu.nyist.HttpHelper.Presenter;
 
-import android.content.Intent;
 
 import cn.edu.nyist.HttpHelper.DataManager;
+import cn.edu.nyist.HttpHelper.Views.BaseView;
 
 /**
  * Created by Leafage on 2018/5/9 9:03.
@@ -17,6 +17,10 @@ public class BasePresenter {
     }
 
     public void onCreate() {
+
+    }
+
+    public void attachView(BaseView view) {
 
     }
 

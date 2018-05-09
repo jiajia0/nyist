@@ -5,7 +5,10 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
+
+import cn.edu.nyist.Entity.Student;
 import cn.edu.nyist.HttpHelper.Presenter.LoginPresenter;
+import cn.edu.nyist.HttpHelper.Views.LoginView;
 import cn.edu.nyist.LogUtil.Logger;
 import cn.edu.nyist.R;
 import cn.edu.nyist.Widget.ViewHolder;
@@ -15,10 +18,11 @@ import cn.edu.nyist.Widget.ViewHolder;
  * DESCRIPTION : 登陆Activity
  */
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener, LoginView {
 
     EditText mUsername;
     EditText mPassword;
+
     LoginPresenter mLoginPresenter;
 
     @Override
@@ -40,6 +44,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.initDatas();
         mLoginPresenter = new LoginPresenter(this);
         mLoginPresenter.onCreate();
+        mLoginPresenter.attachView(this);
     }
 
     @Override
@@ -94,7 +99,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         return heightDiff > softKeyboardHeight * dm.density;
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -108,5 +112,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 mLoginPresenter.login(name, pswd);
                 break;
         }
+    }
+
+    /**
+     * 请求成功时回掉方法
+     * @param student
+     */
+    @Override
+    public void onSuccess(Student student) {
+        Logger.d("status:" + student.getStatus());
+        if (student.getStatus() == 0) {
+            Logger.d("student:" + student.getData().getName());
+        }
+    }
+
+    @Override
+    public void onError(String result) {
+        Logger.d(result);
     }
 }
