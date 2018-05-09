@@ -3,9 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/nyist.iml" filepath="$PROJECT_DIR$/.idea/nyist.iml" />
       <module fileurl="file://$PROJECT_DIR$/nyist.iml" filepath="$PROJECT_DIR$/nyist.iml" />
+      <module fileurl="file://G:\AndroidStudioApp\nyist\.idea\nyist.iml" filepath="G:\AndroidStudioApp\nyist\.idea\nyist.iml" />
     </modules>
   </component>
 </project>
