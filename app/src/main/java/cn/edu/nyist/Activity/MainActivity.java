@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity implements Stu_LeftFragment.OnFra
         /**
          * 登录控制
          */
-        if (MySharedPreference.getSingleInstance(this).getIsLogin()) {
+        if (!MySharedPreference.getSingleInstance(this).getIsLogin()) {
             Logger.d("isLogin---->"+MySharedPreference.getSingleInstance(this).getIsLogin());
             startActivity(new Intent(this, LoginActivity.class));
             finish();
