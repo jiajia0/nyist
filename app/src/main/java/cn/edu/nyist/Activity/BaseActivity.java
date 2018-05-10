@@ -124,7 +124,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-
     protected void openActivity(Class<?> cls) {
         openActivity(this, cls);
     }

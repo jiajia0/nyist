@@ -2,6 +2,7 @@ package cn.edu.nyist.HttpHelper.Presenter;
 
 import android.content.Context;
 
+import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
 import cn.edu.nyist.HttpHelper.Views.BaseView;
 import cn.edu.nyist.HttpHelper.Views.StudentView;
@@ -20,6 +21,7 @@ public class StudentPresenter extends BasePresenter {
     private CompositeSubscription mCompositeSubscription;
     private StudentView mStudentView;
     private Student mStudent;
+    private BaseResponse mBaseResponse;
 
     public StudentPresenter(Context context) {
         this.mContext = context;
@@ -33,38 +35,98 @@ public class StudentPresenter extends BasePresenter {
 
     @Override
     public void onStop() {
-        if (mCompositeSubscription.hasSubscriptions()){
+        if (mCompositeSubscription.hasSubscriptions()) {
             mCompositeSubscription.unsubscribe();
         }
     }
 
     @Override
     public void attachView(BaseView view) {
-        mStudentView = (StudentView)view;
+        mStudentView = (StudentView) view;
     }
 
+    /**
+     * 学生登陆流程处理
+     *
+     * @param username
+     * @param password
+     */
     public void login(String username, String password) {
         mCompositeSubscription.add(mDataManager.login(mContext, username, password)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Observer<Student>() {
-            @Override
-            public void onCompleted() {
-                if (mStudent != null) {
-                    mStudentView.onSuccess(mStudent);
-                }
-            }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Student>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mStudent != null) {
+                            mStudentView.onSuccess(mStudent);
+                        }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                mStudentView.onError(e.getMessage());
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        mStudentView.onError(e.getMessage());
+                    }
 
-            @Override
-            public void onNext(Student student) {
-                mStudent = student;
-            }
-        }));
+                    @Override
+                    public void onNext(Student student) {
+                        mStudent = student;
+                    }
+                }));
+    }
+
+    /**
+     * 学生设置手机号码
+     *
+     * @param username
+     * @param phone
+     */
+    public void stuSetPhone(String username, String phone) {
+        mCompositeSubscription.add(mDataManager.stuSetPhone(mContext, username, phone)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mBaseResponse != null) {
+                            mStudentView.onSuccess(mBaseResponse);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mStudentView.onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        mBaseResponse = baseResponse;
+                    }
+                }));
+    }
+
+    public void stuGetInfo(String username, String token) {
+        mCompositeSubscription.add(mDataManager.stuGetInfo(mContext,username,token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Student>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mStudent != null) {
+                            mStudentView.onSuccess(mStudent);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mStudentView.onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Student student) {
+                        mStudent = student;
+                    }
+                }));
     }
 
 }

@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
 import cn.edu.nyist.Entity.Teacher;
 import cn.edu.nyist.HttpHelper.Presenter.StudentPresenter;
@@ -17,6 +18,9 @@ import cn.edu.nyist.HttpHelper.Views.TeacherView;
 import cn.edu.nyist.LogUtil.Logger;
 import cn.edu.nyist.R;
 import cn.edu.nyist.Widget.ViewHolder;
+import cn.edu.nyist.util.GetToken;
+import cn.edu.nyist.util.MySharedPreference;
+import cn.edu.nyist.util.PropertiesUtil;
 
 /**
  * Created by Leafage on 2018/5/8 16:38.
@@ -126,10 +130,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     return;
                 }
                 if (mStudentButton.isChecked()) {
-                    mStudentPresenter.login(name, pswd);
+                    //mStudentPresenter.login(name, pswd);
+                    //mStudentPresenter.stuSetPhone(name,pswd);
+                    String token = GetToken.getToken(Integer.valueOf(name), PropertiesUtil.getProperty("selfInfo.salt"));
+                    Logger.d("token" + token);
                 }
                 if (mTeacherButton.isChecked()) {
-                    mTeacherPresenter.login(name, pswd);
+                    //mTeacherPresenter.login(name, pswd);
+                    mTeacherPresenter.teaSetPhone(name, pswd);
                 }
                 break;
         }
@@ -144,7 +152,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         Logger.d("student:status:" + student.getStatus());
         if (student.getStatus() == 0) {
             Logger.d("student:" + student.getData().getName());
+            MySharedPreference.getSingleInstance(this).setIsLogin(Boolean.TRUE);
         }
+
     }
 
     @Override
@@ -152,7 +162,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         Logger.d("teacher:status:" + teacher.getStatus());
         if (teacher.getStatus() == 0) {
             Logger.d("teacher:" + teacher.getData().getName());
+            MySharedPreference.getSingleInstance(this).setIsLogin(Boolean.TRUE);
         }
+    }
+
+    @Override
+    public void onSuccess(BaseResponse baseResponse) {
+        Logger.d("baseresponse:status" + baseResponse.getStatus() + baseResponse.getMsg());
     }
 
     @Override

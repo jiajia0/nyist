@@ -28,7 +28,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:0.5'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
-
     compile 'com.android.support:design:26.1.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
@@ -36,5 +35,6 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'io.reactivex.rxjava2:rxjava:2.1.14-RC1'
-
+    implementation files('libs/commons-lang3-3.5.jar')
+    implementation files('libs/joda-time-2.3.jar')
 }

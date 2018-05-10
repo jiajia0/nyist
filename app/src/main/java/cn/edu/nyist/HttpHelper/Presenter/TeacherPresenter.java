@@ -2,6 +2,7 @@ package cn.edu.nyist.HttpHelper.Presenter;
 
 import android.content.Context;
 
+import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
 import cn.edu.nyist.Entity.Teacher;
 import cn.edu.nyist.HttpHelper.Views.BaseView;
@@ -21,6 +22,7 @@ public class TeacherPresenter extends BasePresenter {
     private CompositeSubscription mCompositeSubscription;
     private Teacher mTeacher;
     private TeacherView mTeacherView;
+    private BaseResponse mBaseResponse;
 
     public TeacherPresenter(Context context) {
         mContext = context;
@@ -44,8 +46,42 @@ public class TeacherPresenter extends BasePresenter {
         this.mTeacherView = (TeacherView)view;
     }
 
+    /**
+     * 教师登陆接口
+     * @param username
+     * @param password
+     */
     public void login(String username, String password) {
         mCompositeSubscription.add(mDataManager.teaLogin(mContext, username, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Teacher>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mTeacher != null) {
+                            mTeacherView.onSuccess(mTeacher);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mTeacherView.onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Teacher teacher) {
+                        mTeacher = teacher;
+                    }
+                }));
+    }
+
+    /**
+     * 教师修改手机号码
+     * @param username
+     * @param phone
+     */
+    public void teaSetPhone(String username,String phone) {
+        mCompositeSubscription.add(mDataManager.teaSetPhone(mContext,username,phone)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Teacher>() {

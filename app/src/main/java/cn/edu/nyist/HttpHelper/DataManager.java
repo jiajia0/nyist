@@ -2,6 +2,8 @@ package cn.edu.nyist.HttpHelper;
 
 import android.content.Context;
 
+import cn.edu.nyist.Common.Constant;
+import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
 import cn.edu.nyist.Entity.Teacher;
 import rx.Observable;
@@ -33,6 +35,8 @@ public class DataManager {
         return sDataManager;
     }
 
+    // 学生接口------------------------------------------------
+
     /**
      * 学生登陆请求
      *
@@ -45,8 +49,45 @@ public class DataManager {
         return mHttpService.login(username, password);
     }
 
+    /**
+     * 学生设置手机号码
+     * @param context
+     * @param username
+     * @param phone
+     * @return
+     */
+    public Observable<BaseResponse> stuSetPhone(Context context, String username, String phone) {
+        mHttpService = mHttpHelper.setContext(context).getServer();
+        return mHttpService.stuSetPhone(username, phone);
+    }
+
+    public Observable<Student> stuGetInfo(Context context, String username, String token) {
+        mHttpService = mHttpHelper.setContext(context).getServer();
+        return mHttpService.stuGetInfo(username, token);
+    }
+
+    // 教师接口------------------------------------------------
+    /**
+     * 教师登陆
+     * @param context
+     * @param username
+     * @param password
+     * @return
+     */
     public Observable<Teacher> teaLogin(Context context, String username, String password){
         mHttpService = mHttpHelper.setContext(context).getServer();
         return mHttpService.teaLogin(username, password);
+    }
+
+    /**
+     * 教师设置手机号码
+     * @param context
+     * @param username
+     * @param phone
+     * @return
+     */
+    public Observable<Teacher> teaSetPhone(Context context, String username, String phone) {
+        mHttpService = mHttpHelper.setContext(context).getServer();
+        return mHttpService.teaSetPhone(username, phone);
     }
 }
