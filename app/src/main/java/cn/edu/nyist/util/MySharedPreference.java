@@ -8,12 +8,11 @@ public class MySharedPreference {
 
     private static final String ISLOGIN = "islogin";
 
-
+    private static MySharedPreference mySharedPreference;
     private static SharedPreferences sp;
     private static SharedPreferences.Editor editor;
 
-
-    public static void init(Context context) {
+    public MySharedPreference(Context context) {
         if (null == sp) {
             sp = context.getSharedPreferences("NYIST", Context.MODE_PRIVATE);
         }
@@ -22,11 +21,23 @@ public class MySharedPreference {
         }
     }
 
+
+
+    public static MySharedPreference getSingleInstance(Context context) {
+        if (null == sp) {
+            mySharedPreference = new MySharedPreference(context);
+        }
+        if (null == editor) {
+            mySharedPreference = new MySharedPreference(context);
+        }
+        return mySharedPreference;
+    }
+
     /**
      * 获取SharedPreferences中的登录状态
      * @return 状态
      */
-    public static Boolean getIsLogin() {
+    public Boolean getIsLogin() {
         return sp.getBoolean(ISLOGIN, false);
     }
 
@@ -35,7 +46,7 @@ public class MySharedPreference {
      * @param isLogin 状态
      * @return 执行结果
      */
-    public static boolean setIsLogin(Boolean isLogin) {
+    public boolean setIsLogin(Boolean isLogin) {
         return editor.putBoolean(ISLOGIN, isLogin).commit();
     }
 
