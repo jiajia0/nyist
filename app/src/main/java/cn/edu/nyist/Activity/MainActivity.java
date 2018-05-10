@@ -52,6 +52,7 @@ public class MainActivity extends BaseActivity implements Stu_LeftFragment.OnFra
     @Override
     protected void initDatas() {
         super.initDatas();
+        Logger.d("isLogin---->"+MySharedPreference.getSingleInstance(this).getIsLogin());
         /**
          * 登录控制
          */
