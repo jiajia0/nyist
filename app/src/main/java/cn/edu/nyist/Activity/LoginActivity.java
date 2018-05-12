@@ -132,8 +132,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 if (mStudentButton.isChecked()) {
                     //mStudentPresenter.login(name, pswd);
                     //mStudentPresenter.stuSetPhone(name,pswd);
-                    String token = GetToken.getToken(Integer.valueOf(name), PropertiesUtil.getProperty("selfInfo.salt"));
-                    Logger.d("token" + token);
+                    //String salt = PropertiesUtil.getProperty(this,"selfInfo.salt","");
+                    String token = GetToken.getToken(this,Integer.valueOf(name), "selfInfo.salt");
+                    Logger.d("token：" + token);
+                    mStudentPresenter.stuGetInfo(name, token);
                 }
                 if (mTeacherButton.isChecked()) {
                     //mTeacherPresenter.login(name, pswd);
@@ -144,7 +146,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     /**
-     * 请求成功时回掉方法
+     * 学生操作请求成功时回掉方法
      * @param student
      */
     @Override
@@ -157,6 +159,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     }
 
+    /**
+     * 教师操作成功回掉方法
+     * @param teacher
+     */
     @Override
     public void onSuccess(Teacher teacher) {
         Logger.d("teacher:status:" + teacher.getStatus());
@@ -166,6 +172,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
+    /**
+     * 只包含基本内容的操作成功回掉方法
+     * @param baseResponse
+     */
     @Override
     public void onSuccess(BaseResponse baseResponse) {
         Logger.d("baseresponse:status" + baseResponse.getStatus() + baseResponse.getMsg());

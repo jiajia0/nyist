@@ -105,6 +105,11 @@ public class StudentPresenter extends BasePresenter {
                 }));
     }
 
+    /**
+     * 学生获取个人信息
+     * @param username
+     * @param token
+     */
     public void stuGetInfo(String username, String token) {
         mCompositeSubscription.add(mDataManager.stuGetInfo(mContext,username,token)
                 .subscribeOn(Schedulers.io())

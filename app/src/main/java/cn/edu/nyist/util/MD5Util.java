@@ -1,5 +1,7 @@
 package cn.edu.nyist.util;
 
+import android.content.Context;
+
 import java.security.MessageDigest;
 
 /**
@@ -50,6 +52,11 @@ public class MD5Util {
 
     public static String MD5EncodeUtf8(String origin,String salt) {
         origin = PropertiesUtil.getProperty(salt, "") + origin;
+        return MD5Encode(origin, "utf-8");
+    }
+
+    public static String MD5EncodeUtf8(Context context, String origin, String salt) {
+        origin = PropertiesUtil.getProperty(context, salt, "") + origin;
         return MD5Encode(origin, "utf-8");
     }
 
