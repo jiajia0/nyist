@@ -8,12 +8,14 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import cn.edu.nyist.Entity.AttenceRecord;
 import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
 import cn.edu.nyist.Entity.Teacher;
 import cn.edu.nyist.Entity.TeacherClass;
 import cn.edu.nyist.HttpHelper.Presenter.StudentPresenter;
 import cn.edu.nyist.HttpHelper.Presenter.TeacherPresenter;
+import cn.edu.nyist.HttpHelper.Views.AttenceView;
 import cn.edu.nyist.HttpHelper.Views.ClassView;
 import cn.edu.nyist.HttpHelper.Views.StudentView;
 import cn.edu.nyist.HttpHelper.Views.TeacherView;
@@ -29,7 +31,7 @@ import cn.edu.nyist.util.PropertiesUtil;
  * DESCRIPTION : 登陆Activity
  */
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener, StudentView, TeacherView, ClassView {
+public class LoginActivity extends BaseActivity implements View.OnClickListener, StudentView, TeacherView, ClassView, AttenceView {
 
     EditText mUsername;
     EditText mPassword;
@@ -136,7 +138,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                     //mStudentPresenter.stuSetPhone(name,pswd);
 
-                    //String token = GetToken.getToken(this,Integer.valueOf(name), "selfInfo.salt");
+                    //String token = GetToken.getToken(this,Integer.valueOf(name), "attence.salt");
                     //Logger.d("token：" + token);
                     //mStudentPresenter.stuGetInfo(name, token);
 
@@ -146,6 +148,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     //String token = GetToken.getToken(this,Integer.valueOf(name), "updatePass.salt");
                     //Logger.d("token:" + token);
                     //mStudentPresenter.stuUpdatePassword(name, token,"123456","666123","666123");
+
+                    // 生成带设备号的token，用来查寝
+                    String token = GetToken.getEquipToken(this,Integer.valueOf(name), "198127398273457","attence.salt");
+                    Logger.d("带设备号的token：" + token);
 
                 }
                 if (mTeacherButton.isChecked()) {
@@ -159,11 +165,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     //mTeacherPresenter.attachClassView(this);
                     //mTeacherPresenter.teaGetClassInfo(name);
 
-                    String token = GetToken.getToken(this,Integer.valueOf(name), "setDormNum.salt");
-                    Logger.d("token:" + token);
-                    mTeacherPresenter.attachStudentView(this);
-                    mTeacherPresenter.teaSetDormNum(name,token,"12#414");
+                    //String token = GetToken.getToken(this,Integer.valueOf(name), "setDormNum.salt");
+                    //Logger.d("token:" + token);
+                    //mTeacherPresenter.attachStudentView(this);
+                    //mTeacherPresenter.teaSetDormNum(name,token,"12#414");
 
+                    //mTeacherPresenter.attachAttenceView(this);
+                    //mTeacherPresenter.teaGetAttenceRecord(name,"星期六",pswd);
+
+                    // 生成更新照片的token，用来更新学生照片
+                    String token = GetToken.getToken(this,Integer.valueOf(name), "img.salt");
+                    Logger.d("更新照片的token：" + token);
                 }
                 break;
         }
@@ -214,6 +226,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (teacherClass.getStatus() == 0) {
             Logger.d("classNum:" + teacherClass.getData().get(0).getMajor());
             Logger.d("classNum:" + teacherClass.getData().get(1).getMajor());
+        }
+    }
+
+    /**
+     * 查寝信息查询成功回掉接口
+     * @param attenceRecord
+     */
+    @Override
+    public void onSuccess(AttenceRecord attenceRecord) {
+        Logger.d("attenceRecord:status:" + attenceRecord.getStatus());
+        if (attenceRecord.getStatus() == 0) {
+            Logger.d("classNum:" + attenceRecord.getData().size());
+            Logger.d("class:" + attenceRecord.getData().get(0));
         }
     }
 

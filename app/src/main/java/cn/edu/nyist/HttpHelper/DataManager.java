@@ -161,9 +161,9 @@ public class DataManager {
         return mHttpService.teaSetDormNum(username, token, dormNum);
     }
 
-    public Observable<AttenceRecord> teaGetAttenceRecord(Context context,String username) {
+    public Observable<AttenceRecord> teaGetAttenceRecord(Context context,String username,String week,String classNum) {
         mHttpService = mHttpHelper.setContext(context).getServer();
-        return mHttpService.teaGetAttenceRecord(username);
+        return mHttpService.teaGetAttenceRecord(username, week, classNum);
     }
 
 }

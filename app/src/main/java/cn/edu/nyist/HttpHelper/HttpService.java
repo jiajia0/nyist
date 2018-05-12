@@ -66,7 +66,7 @@ public interface HttpService {
     // 辅导员修改获取考勤信息
     @FormUrlEncoded
     @POST(Constant.TEA_GET_ATTENCE_RECORD)
-    Observable<AttenceRecord> teaGetAttenceRecord(@Field("id") String username);
+    Observable<AttenceRecord> teaGetAttenceRecord(@Field("id") String username, @Field("week") String week, @Field("classNum") String classNum);
     // 辅导员修改学生照片
 
 }

@@ -1,6 +1,7 @@
 package cn.edu.nyist.Entity;
 
-import java.sql.Time;
+
+import java.util.Date;
 
 /**
  * Created by Leafage on 2018/5/10 18:09.
@@ -20,7 +21,7 @@ public class AttenceData {
     private String department;
     private String school;
     private String attenceStatus;
-    private Time time;
+    private String time;
 
     public String getId() {
         return id;
@@ -118,11 +119,16 @@ public class AttenceData {
         this.attenceStatus = attenceStatus;
     }
 
-    public Time getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(String time) {
         this.time = time;
+    }
+
+    @Override
+    public String toString() {
+        return "id:" + id + ",name:" + name + ",department:" + department + ",major:" + major + ",date:" + time;
     }
 }

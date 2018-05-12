@@ -74,6 +74,14 @@ public class TeacherPresenter extends BasePresenter {
     }
 
     /**
+     * 教师查看查寝记录时需要添加该视图
+     * @param attenceView
+     */
+    public void attachAttenceView(AttenceView attenceView) {
+        this.mAttenceView = attenceView;
+    }
+
+    /**
      * 教师登陆接口
      * @param username
      * @param password
@@ -189,9 +197,9 @@ public class TeacherPresenter extends BasePresenter {
 
     /**
      * 教师设置学生寝室号
-     * @param username
+     * @param username 学生学号
      * @param token
-     * @param dormNum
+     * @param dormNum 寝室号
      */
     public void teaSetDormNum(String username,String token,String dormNum) {
         mCompositeSubscription.add(mDataManager.teaSetDormNum(mContext, username, token, dormNum)
@@ -219,11 +227,13 @@ public class TeacherPresenter extends BasePresenter {
 
 
     /**
-     * 获取查寝记录
-     * @param username
+     * 教师查看查寝记录
+     * @param username 教师ID
+     * @param week 对应的周几
+     * @param classNum 班级ID
      */
-    public void teaGetAttenceRecord(String username) {
-        mCompositeSubscription.add(mDataManager.teaGetAttenceRecord(mContext, username)
+    public void teaGetAttenceRecord(String username, String week, String classNum) {
+        mCompositeSubscription.add(mDataManager.teaGetAttenceRecord(mContext, username, week, classNum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AttenceRecord>() {
