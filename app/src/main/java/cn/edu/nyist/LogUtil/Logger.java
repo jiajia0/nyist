@@ -5,7 +5,6 @@ import android.util.Log;
 
 /**
  * Created by Leafage on 2018/5/8 16:22.
- * DESCRIPTION :
  */
 
 public class Logger {
