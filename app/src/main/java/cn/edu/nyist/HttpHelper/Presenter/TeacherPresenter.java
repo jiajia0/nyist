@@ -5,7 +5,10 @@ import android.content.Context;
 import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
 import cn.edu.nyist.Entity.Teacher;
+import cn.edu.nyist.Entity.TeacherClass;
 import cn.edu.nyist.HttpHelper.Views.BaseView;
+import cn.edu.nyist.HttpHelper.Views.ClassView;
+import cn.edu.nyist.HttpHelper.Views.StudentView;
 import cn.edu.nyist.HttpHelper.Views.TeacherView;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -21,8 +24,12 @@ public class TeacherPresenter extends BasePresenter {
     private Context mContext;
     private CompositeSubscription mCompositeSubscription;
     private Teacher mTeacher;
+    private Student mStudent;
     private TeacherView mTeacherView;
+    private ClassView mClassView;
+    private StudentView mStudentView;
     private BaseResponse mBaseResponse;
+    private TeacherClass mTeacherClass;
 
     public TeacherPresenter(Context context) {
         mContext = context;
@@ -44,6 +51,18 @@ public class TeacherPresenter extends BasePresenter {
     @Override
     public void attachView(BaseView view) {
         this.mTeacherView = (TeacherView)view;
+    }
+
+    /**
+     * 教师获取班级信息时需要添加该视图
+     * @param classView
+     */
+    public void attachClassView(ClassView classView) {
+        this.mClassView = classView;
+    }
+
+    public void attachStudentView(StudentView studentView) {
+        this.mStudentView = studentView;
     }
 
     /**
@@ -128,6 +147,64 @@ public class TeacherPresenter extends BasePresenter {
                     @Override
                     public void onNext(Teacher teacher) {
                         mTeacher = teacher;
+                    }
+                }));
+    }
+
+    /**
+     * 教师获取管理班级的信息
+     * @param username
+     */
+    public void teaGetClassInfo(String username) {
+        mCompositeSubscription.add(mDataManager.teaGetClassInfo(mContext, username)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<TeacherClass>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mClassView != null) {
+                            mClassView.onSuccess(mTeacherClass);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mTeacherView.onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(TeacherClass teacherClass) {
+                        mTeacherClass = teacherClass;
+                    }
+                }));
+    }
+
+    /**
+     * 教师设置学生寝室号
+     * @param username
+     * @param token
+     * @param dormNum
+     */
+    public void teaSetDormNum(String username,String token,String dormNum) {
+        mCompositeSubscription.add(mDataManager.teaSetDormNum(mContext, username, token, dormNum)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Student>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mStudentView != null) {
+                            mStudentView.onSuccess(mStudent);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mTeacherView.onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Student student) {
+                        mStudent = student;
                     }
                 }));
     }

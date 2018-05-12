@@ -1,6 +1,7 @@
 package cn.edu.nyist.HttpHelper.Views;
 
 import cn.edu.nyist.Entity.Student;
+import cn.edu.nyist.Entity.Teacher;
 
 /**
  * Created by Leafage on 2018/5/9 19:56.

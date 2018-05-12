@@ -11,8 +11,10 @@ import android.widget.RadioGroup;
 import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
 import cn.edu.nyist.Entity.Teacher;
+import cn.edu.nyist.Entity.TeacherClass;
 import cn.edu.nyist.HttpHelper.Presenter.StudentPresenter;
 import cn.edu.nyist.HttpHelper.Presenter.TeacherPresenter;
+import cn.edu.nyist.HttpHelper.Views.ClassView;
 import cn.edu.nyist.HttpHelper.Views.StudentView;
 import cn.edu.nyist.HttpHelper.Views.TeacherView;
 import cn.edu.nyist.LogUtil.Logger;
@@ -27,7 +29,7 @@ import cn.edu.nyist.util.PropertiesUtil;
  * DESCRIPTION : 登陆Activity
  */
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener, StudentView, TeacherView {
+public class LoginActivity extends BaseActivity implements View.OnClickListener, StudentView, TeacherView, ClassView {
 
     EditText mUsername;
     EditText mPassword;
@@ -133,14 +135,27 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     //mStudentPresenter.login(name, pswd);
                     //mStudentPresenter.stuSetPhone(name,pswd);
                     //String salt = PropertiesUtil.getProperty(this,"selfInfo.salt","");
-                    String token = GetToken.getToken(this,Integer.valueOf(name), "selfInfo.salt");
-                    Logger.d("token：" + token);
-                    mStudentPresenter.stuGetInfo(name, token);
+                    //String token = GetToken.getToken(this,Integer.valueOf(name), "selfInfo.salt");
+                    //Logger.d("token：" + token);
+                    //mStudentPresenter.stuGetInfo(name, token);
+                    //mStudentPresenter.attachTeacherView(this);
+                    //mStudentPresenter.stuGetTeacherInfo(name);
+                    //String token = GetToken.getToken(this,Integer.valueOf(name), "updatePass.salt");
+                    //Logger.d("token:" + token);
+                    //mStudentPresenter.stuUpdatePassword(name, token,"123456","666123","666123");
+
                 }
                 if (mTeacherButton.isChecked()) {
                     //mTeacherPresenter.login(name, pswd);
                     //mTeacherPresenter.teaSetPhone(name, pswd);
-                    mTeacherPresenter.teaGetInfo(name);
+                    //mTeacherPresenter.teaGetInfo(name);
+                    //mTeacherPresenter.attachClassView(this);
+                    //mTeacherPresenter.teaGetClassInfo(name);
+
+                    String token = GetToken.getToken(this,Integer.valueOf(name), "setDormNum.salt");
+                    Logger.d("token:" + token);
+                    mTeacherPresenter.teaSetDormNum(name,token,"12#414");
+
                 }
                 break;
         }
@@ -179,6 +194,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onSuccess(BaseResponse baseResponse) {
         Logger.d("baseresponse:status" + baseResponse.getStatus() + baseResponse.getMsg());
+    }
+
+    /**
+     * 教师查看管理班级成功回掉方法
+     * @param teacherClass
+     */
+    @Override
+    public void onSuccess(TeacherClass teacherClass) {
+        Logger.d("teacher:status:" + teacherClass.getStatus());
+        if (teacherClass.getStatus() == 0) {
+            Logger.d("classNum:" + teacherClass.getData().get(0).getMajor());
+            Logger.d("classNum:" + teacherClass.getData().get(1).getMajor());
+        }
     }
 
     @Override

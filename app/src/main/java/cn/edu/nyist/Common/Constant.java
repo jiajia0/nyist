@@ -13,7 +13,7 @@ public interface Constant {
     String STU_LOGIN = BASE_URL + "/student/login.do"; // 学生登陆URL
     String STU_SET_PHONE = BASE_URL + "/student/set_phone.do"; // 学生修改手机URL
     String STU_GET_INFO = BASE_URL + "/student/get_self_info.do"; // 学生获取个人信息
-    String STU_GET_TEACHER_INFO = BASE_URL + "/student/get_self_info.do"; // 查看教师信息
+    String STU_GET_TEACHER_INFO = BASE_URL + "/student/get_teacher_info.do"; // 查看教师信息
     String STU_UPDATE_PASSWORD = BASE_URL + "/student/update_password.do"; //修改密码
     String STU_ATTENCE = BASE_URL + "/student/attence.do"; //学生考勤
 

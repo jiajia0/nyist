@@ -6,6 +6,7 @@ import cn.edu.nyist.Common.Constant;
 import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
 import cn.edu.nyist.Entity.Teacher;
+import cn.edu.nyist.Entity.TeacherClass;
 import rx.Observable;
 
 /**
@@ -61,9 +62,42 @@ public class DataManager {
         return mHttpService.stuSetPhone(username, phone);
     }
 
+    /**
+     * 学生获取个人信息
+     * @param context
+     * @param username
+     * @param token
+     * @return
+     */
     public Observable<Student> stuGetInfo(Context context, String username, String token) {
         mHttpService = mHttpHelper.setContext(context).getServer();
         return mHttpService.stuGetInfo(username, token);
+    }
+
+    /**
+     * 学生修改密码
+     * @param context
+     * @param id
+     * @param token
+     * @param oldPass
+     * @param newPass
+     * @param confirmPass
+     * @return
+     */
+    public Observable<BaseResponse> stuUpdatePassword(Context context, String id, String token, String oldPass, String newPass, String confirmPass) {
+        mHttpService = mHttpHelper.setContext(context).getServer();
+        return mHttpService.stuUpdatePassword(id, token, oldPass, newPass, confirmPass);
+    }
+
+    /**
+     * 学生获取自己教师信息
+     * @param context
+     * @param username
+     * @return
+     */
+    public Observable<Teacher> stuGetTeacherInfo(Context context, String username) {
+        mHttpService = mHttpHelper.setContext(context).getServer();
+        return mHttpService.stuGetTeacherInfo(username);
     }
 
     // 教师接口------------------------------------------------
@@ -91,8 +125,41 @@ public class DataManager {
         return mHttpService.teaSetPhone(username, phone);
     }
 
+    /**
+     * 教师获取个人信息
+     * @param context
+     * @param username
+     * @return
+     */
     public Observable<Teacher> teaGetInfo(Context context, String username) {
         mHttpService = mHttpHelper.setContext(context).getServer();
         return mHttpService.teaGetInfo(username);
     }
+
+    /**
+     * 教师获取管理班级信息
+     * @param context
+     * @param username
+     * @return
+     */
+    public Observable<TeacherClass> teaGetClassInfo(Context context, String username) {
+        mHttpService = mHttpHelper.setContext(context).getServer();
+        return mHttpService.teaGetClassInfo(username);
+    }
+
+    /**
+     * 教师修改
+     * @param context
+     * @param username 学生学号
+     * @param token
+     * @param dormNum
+     * @return
+     */
+    public Observable<Student> teaSetDormNum(Context context,String username,String token,String dormNum) {
+        mHttpService = mHttpHelper.setContext(context).getServer();
+        return mHttpService.teaSetDormNum(username, token, dormNum);
+    }
+
+
+
 }
