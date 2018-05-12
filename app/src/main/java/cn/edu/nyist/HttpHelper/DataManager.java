@@ -90,4 +90,9 @@ public class DataManager {
         mHttpService = mHttpHelper.setContext(context).getServer();
         return mHttpService.teaSetPhone(username, phone);
     }
+
+    public Observable<Teacher> teaGetInfo(Context context, String username) {
+        mHttpService = mHttpHelper.setContext(context).getServer();
+        return mHttpService.teaGetInfo(username);
+    }
 }

@@ -139,7 +139,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
                 if (mTeacherButton.isChecked()) {
                     //mTeacherPresenter.login(name, pswd);
-                    mTeacherPresenter.teaSetPhone(name, pswd);
+                    //mTeacherPresenter.teaSetPhone(name, pswd);
+                    mTeacherPresenter.teaGetInfo(name);
                 }
                 break;
         }
@@ -156,7 +157,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             Logger.d("student:" + student.getData().getName());
             MySharedPreference.getSingleInstance(this).setIsLogin(Boolean.TRUE);
         }
-
     }
 
     /**

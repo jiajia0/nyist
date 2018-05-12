@@ -104,4 +104,32 @@ public class TeacherPresenter extends BasePresenter {
                 }));
     }
 
+    /**
+     * 教师获取个人信息
+     * @param username
+     */
+    public void teaGetInfo(String username) {
+        mCompositeSubscription.add(mDataManager.teaGetInfo(mContext,username)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Teacher>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mTeacher != null) {
+                            mTeacherView.onSuccess(mTeacher);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mTeacherView.onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Teacher teacher) {
+                        mTeacher = teacher;
+                    }
+                }));
+    }
+
 }
