@@ -1,6 +1,5 @@
 package cn.edu.nyist.Activity;
 
-import android.content.Intent;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -9,13 +8,14 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import cn.edu.nyist.App;
+import cn.edu.nyist.Entity.AttenceRecord;
 import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
 import cn.edu.nyist.Entity.Teacher;
 import cn.edu.nyist.Entity.TeacherClass;
 import cn.edu.nyist.HttpHelper.Presenter.StudentPresenter;
 import cn.edu.nyist.HttpHelper.Presenter.TeacherPresenter;
+import cn.edu.nyist.HttpHelper.Views.AttenceView;
 import cn.edu.nyist.HttpHelper.Views.ClassView;
 import cn.edu.nyist.HttpHelper.Views.StudentView;
 import cn.edu.nyist.HttpHelper.Views.TeacherView;
@@ -31,7 +31,7 @@ import cn.edu.nyist.util.PropertiesUtil;
  * DESCRIPTION : 登陆Activity
  */
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener, StudentView, TeacherView, ClassView {
+public class LoginActivity extends BaseActivity implements View.OnClickListener, StudentView, TeacherView, ClassView, AttenceView {
 
     EditText mUsername;
     EditText mPassword;
@@ -134,55 +134,48 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     return;
                 }
                 if (mStudentButton.isChecked()) {
-                    Logger.d("student");
-                    //储存登录信息
-                    MySharedPreference.getSingleInstance(this).
-                            setIsLogin(Boolean.TRUE).
-                            setLoginRole(App.ROLE_STUDENT).
-                            setLoginName("student");
-                    App.IS_LOGIN = Boolean.TRUE;
-                    App.LOGIN_ROLE = App.ROLE_STUDENT;
-                    App.LOGIN_USERNAME = "student";
-                    startActivity(new Intent(this, MainActivity.class));
-                    finish();
-
                     //mStudentPresenter.login(name, pswd);
 
-
                     //mStudentPresenter.stuSetPhone(name,pswd);
-                    //String salt = PropertiesUtil.getProperty(this,"selfInfo.salt","");
-                    //String token = GetToken.getToken(this,Integer.valueOf(name), "selfInfo.salt");
+
+                    //String token = GetToken.getToken(this,Integer.valueOf(name), "attence.salt");
                     //Logger.d("token：" + token);
                     //mStudentPresenter.stuGetInfo(name, token);
+
                     //mStudentPresenter.attachTeacherView(this);
                     //mStudentPresenter.stuGetTeacherInfo(name);
+
                     //String token = GetToken.getToken(this,Integer.valueOf(name), "updatePass.salt");
                     //Logger.d("token:" + token);
                     //mStudentPresenter.stuUpdatePassword(name, token,"123456","666123","666123");
 
+                    // 生成带设备号的token，用来查寝
+                    String token = GetToken.getEquipToken(this,Integer.valueOf(name), "198127398273457","attence.salt");
+                    Logger.d("带设备号的token：" + token);
+
                 }
                 if (mTeacherButton.isChecked()) {
-                    Logger.d("taacher");
-                    //储存登录信息
-                    MySharedPreference.getSingleInstance(this).
-                            setIsLogin(Boolean.TRUE).
-                            setLoginRole(App.ROLE_TEACHER).
-                            setLoginName("teacher");
-                    App.IS_LOGIN = Boolean.TRUE;
-                    App.LOGIN_ROLE = App.ROLE_TEACHER;
-                    App.LOGIN_USERNAME = "teacher";
-                    startActivity(new Intent(this, MainActivity.class));
-                    finish();
+
                     //mTeacherPresenter.login(name, pswd);
+
                     //mTeacherPresenter.teaSetPhone(name, pswd);
+
                     //mTeacherPresenter.teaGetInfo(name);
+
                     //mTeacherPresenter.attachClassView(this);
                     //mTeacherPresenter.teaGetClassInfo(name);
 
-                   // String token = GetToken.getToken(this,Integer.valueOf(name), "setDormNum.salt");
-                  //  Logger.d("token:" + token);
-                   // mTeacherPresenter.teaSetDormNum(name,token,"12#414");
+                    //String token = GetToken.getToken(this,Integer.valueOf(name), "setDormNum.salt");
+                    //Logger.d("token:" + token);
+                    //mTeacherPresenter.attachStudentView(this);
+                    //mTeacherPresenter.teaSetDormNum(name,token,"12#414");
 
+                    //mTeacherPresenter.attachAttenceView(this);
+                    //mTeacherPresenter.teaGetAttenceRecord(name,"星期六",pswd);
+
+                    // 生成更新照片的token，用来更新学生照片
+                    String token = GetToken.getToken(this,Integer.valueOf(name), "img.salt");
+                    Logger.d("更新照片的token：" + token);
                 }
                 break;
         }
@@ -197,15 +190,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         Logger.d("student:status:" + student.getStatus());
         if (student.getStatus() == 0) {
             Logger.d("student:" + student.getData().getName());
-            //储存登录信息
-            MySharedPreference.getSingleInstance(this).
-                    setIsLogin(Boolean.TRUE).
-                    setLoginRole(App.ROLE_STUDENT).
-                    setLoginName(student.getData().getName());
-            App.IS_LOGIN = Boolean.TRUE;
-            App.LOGIN_ROLE = App.ROLE_STUDENT;
-            App.LOGIN_USERNAME = student.getData().getName();
-            startActivity(new Intent(this, MainActivity.class));
+            MySharedPreference.getSingleInstance(this).setIsLogin(Boolean.TRUE);
         }
     }
 
@@ -218,15 +203,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         Logger.d("teacher:status:" + teacher.getStatus());
         if (teacher.getStatus() == 0) {
             Logger.d("teacher:" + teacher.getData().getName());
-            //储存登录信息
-            MySharedPreference.getSingleInstance(this).
-                    setIsLogin(Boolean.TRUE).
-                    setLoginRole(App.ROLE_TEACHER).
-                    setLoginName(teacher.getData().getName());
-            App.IS_LOGIN = Boolean.TRUE;
-            App.LOGIN_ROLE = App.ROLE_TEACHER;
-            App.LOGIN_USERNAME = teacher.getData().getName();
-            startActivity(new Intent(this, MainActivity.class));
+            MySharedPreference.getSingleInstance(this).setIsLogin(Boolean.TRUE);
         }
     }
 
@@ -249,6 +226,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (teacherClass.getStatus() == 0) {
             Logger.d("classNum:" + teacherClass.getData().get(0).getMajor());
             Logger.d("classNum:" + teacherClass.getData().get(1).getMajor());
+        }
+    }
+
+    /**
+     * 查寝信息查询成功回掉接口
+     * @param attenceRecord
+     */
+    @Override
+    public void onSuccess(AttenceRecord attenceRecord) {
+        Logger.d("attenceRecord:status:" + attenceRecord.getStatus());
+        if (attenceRecord.getStatus() == 0) {
+            Logger.d("classNum:" + attenceRecord.getData().size());
+            Logger.d("class:" + attenceRecord.getData().get(0));
         }
     }
 

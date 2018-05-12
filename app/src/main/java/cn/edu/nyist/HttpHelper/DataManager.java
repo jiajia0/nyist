@@ -3,6 +3,7 @@ package cn.edu.nyist.HttpHelper;
 import android.content.Context;
 
 import cn.edu.nyist.Common.Constant;
+import cn.edu.nyist.Entity.AttenceRecord;
 import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
 import cn.edu.nyist.Entity.Teacher;
@@ -148,7 +149,7 @@ public class DataManager {
     }
 
     /**
-     * 教师修改
+     * 教师修改寝室号
      * @param context
      * @param username 学生学号
      * @param token
@@ -160,6 +161,9 @@ public class DataManager {
         return mHttpService.teaSetDormNum(username, token, dormNum);
     }
 
-
+    public Observable<AttenceRecord> teaGetAttenceRecord(Context context,String username,String week,String classNum) {
+        mHttpService = mHttpHelper.setContext(context).getServer();
+        return mHttpService.teaGetAttenceRecord(username, week, classNum);
+    }
 
 }

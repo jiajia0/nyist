@@ -2,10 +2,12 @@ package cn.edu.nyist.HttpHelper.Presenter;
 
 import android.content.Context;
 
+import cn.edu.nyist.Entity.AttenceRecord;
 import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
 import cn.edu.nyist.Entity.Teacher;
 import cn.edu.nyist.Entity.TeacherClass;
+import cn.edu.nyist.HttpHelper.Views.AttenceView;
 import cn.edu.nyist.HttpHelper.Views.BaseView;
 import cn.edu.nyist.HttpHelper.Views.ClassView;
 import cn.edu.nyist.HttpHelper.Views.StudentView;
@@ -25,9 +27,11 @@ public class TeacherPresenter extends BasePresenter {
     private CompositeSubscription mCompositeSubscription;
     private Teacher mTeacher;
     private Student mStudent;
+    private AttenceRecord mAttenceRecord;
     private TeacherView mTeacherView;
     private ClassView mClassView;
     private StudentView mStudentView;
+    private AttenceView mAttenceView;
     private BaseResponse mBaseResponse;
     private TeacherClass mTeacherClass;
 
@@ -61,8 +65,20 @@ public class TeacherPresenter extends BasePresenter {
         this.mClassView = classView;
     }
 
+    /**
+     * 教师修改寝室号需要添加该视图
+     * @param studentView
+     */
     public void attachStudentView(StudentView studentView) {
         this.mStudentView = studentView;
+    }
+
+    /**
+     * 教师查看查寝记录时需要添加该视图
+     * @param attenceView
+     */
+    public void attachAttenceView(AttenceView attenceView) {
+        this.mAttenceView = attenceView;
     }
 
     /**
@@ -181,9 +197,9 @@ public class TeacherPresenter extends BasePresenter {
 
     /**
      * 教师设置学生寝室号
-     * @param username
+     * @param username 学生学号
      * @param token
-     * @param dormNum
+     * @param dormNum 寝室号
      */
     public void teaSetDormNum(String username,String token,String dormNum) {
         mCompositeSubscription.add(mDataManager.teaSetDormNum(mContext, username, token, dormNum)
@@ -209,4 +225,34 @@ public class TeacherPresenter extends BasePresenter {
                 }));
     }
 
+
+    /**
+     * 教师查看查寝记录
+     * @param username 教师ID
+     * @param week 对应的周几
+     * @param classNum 班级ID
+     */
+    public void teaGetAttenceRecord(String username, String week, String classNum) {
+        mCompositeSubscription.add(mDataManager.teaGetAttenceRecord(mContext, username, week, classNum)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<AttenceRecord>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mAttenceView != null) {
+                            mAttenceView.onSuccess(mAttenceRecord);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mTeacherView.onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(AttenceRecord attenceRecord) {
+                        mAttenceRecord = attenceRecord;
+                    }
+                }));
+    }
 }

@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.google.gson.GsonBuilder;
 
+import java.util.concurrent.TimeUnit;
+
 import cn.edu.nyist.Common.Constant;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -18,7 +20,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HttpHelper {
     private Context mContext;
 
-    OkHttpClient mOkHttpClient = new OkHttpClient();
+    OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
+            .connectTimeout(5, TimeUnit.SECONDS)
+            .readTimeout(5, TimeUnit.SECONDS)
+            .writeTimeout(5, TimeUnit.SECONDS)
+            .build();
+
     GsonConverterFactory mConverterFactory = GsonConverterFactory.create(new GsonBuilder().create());
 
     private HttpHelper instance = null;
@@ -28,7 +35,7 @@ public class HttpHelper {
 
     }
 
-    public HttpHelper(Context context){
+    public HttpHelper(Context context) {
         mContext = context;
         init();
     }
@@ -45,7 +52,8 @@ public class HttpHelper {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
     }
-    public HttpService getServer(){
+
+    public HttpService getServer() {
         return mRetrofit.create(HttpService.class);
     }
 
