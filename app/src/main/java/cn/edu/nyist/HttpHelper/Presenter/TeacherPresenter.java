@@ -2,10 +2,12 @@ package cn.edu.nyist.HttpHelper.Presenter;
 
 import android.content.Context;
 
+import cn.edu.nyist.Entity.AttenceRecord;
 import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
 import cn.edu.nyist.Entity.Teacher;
 import cn.edu.nyist.Entity.TeacherClass;
+import cn.edu.nyist.HttpHelper.Views.AttenceView;
 import cn.edu.nyist.HttpHelper.Views.BaseView;
 import cn.edu.nyist.HttpHelper.Views.ClassView;
 import cn.edu.nyist.HttpHelper.Views.StudentView;
@@ -25,9 +27,11 @@ public class TeacherPresenter extends BasePresenter {
     private CompositeSubscription mCompositeSubscription;
     private Teacher mTeacher;
     private Student mStudent;
+    private AttenceRecord mAttenceRecord;
     private TeacherView mTeacherView;
     private ClassView mClassView;
     private StudentView mStudentView;
+    private AttenceView mAttenceView;
     private BaseResponse mBaseResponse;
     private TeacherClass mTeacherClass;
 
@@ -61,6 +65,10 @@ public class TeacherPresenter extends BasePresenter {
         this.mClassView = classView;
     }
 
+    /**
+     * 教师修改寝室号需要添加该视图
+     * @param studentView
+     */
     public void attachStudentView(StudentView studentView) {
         this.mStudentView = studentView;
     }
@@ -209,4 +217,32 @@ public class TeacherPresenter extends BasePresenter {
                 }));
     }
 
+
+    /**
+     * 获取查寝记录
+     * @param username
+     */
+    public void teaGetAttenceRecord(String username) {
+        mCompositeSubscription.add(mDataManager.teaGetAttenceRecord(mContext, username)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<AttenceRecord>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mAttenceView != null) {
+                            mAttenceView.onSuccess(mAttenceRecord);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mTeacherView.onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(AttenceRecord attenceRecord) {
+                        mAttenceRecord = attenceRecord;
+                    }
+                }));
+    }
 }

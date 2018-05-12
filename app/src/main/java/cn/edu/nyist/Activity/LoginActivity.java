@@ -133,27 +133,35 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
                 if (mStudentButton.isChecked()) {
                     //mStudentPresenter.login(name, pswd);
+
                     //mStudentPresenter.stuSetPhone(name,pswd);
-                    //String salt = PropertiesUtil.getProperty(this,"selfInfo.salt","");
+
                     //String token = GetToken.getToken(this,Integer.valueOf(name), "selfInfo.salt");
                     //Logger.d("token：" + token);
                     //mStudentPresenter.stuGetInfo(name, token);
+
                     //mStudentPresenter.attachTeacherView(this);
                     //mStudentPresenter.stuGetTeacherInfo(name);
+
                     //String token = GetToken.getToken(this,Integer.valueOf(name), "updatePass.salt");
                     //Logger.d("token:" + token);
                     //mStudentPresenter.stuUpdatePassword(name, token,"123456","666123","666123");
 
                 }
                 if (mTeacherButton.isChecked()) {
+
                     //mTeacherPresenter.login(name, pswd);
+
                     //mTeacherPresenter.teaSetPhone(name, pswd);
+
                     //mTeacherPresenter.teaGetInfo(name);
+
                     //mTeacherPresenter.attachClassView(this);
                     //mTeacherPresenter.teaGetClassInfo(name);
 
                     String token = GetToken.getToken(this,Integer.valueOf(name), "setDormNum.salt");
                     Logger.d("token:" + token);
+                    mTeacherPresenter.attachStudentView(this);
                     mTeacherPresenter.teaSetDormNum(name,token,"12#414");
 
                 }
