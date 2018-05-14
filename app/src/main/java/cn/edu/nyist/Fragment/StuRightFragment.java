@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.githang.statusbar.StatusBarCompat;
+
 import cn.edu.nyist.R;
 
 public class StuRightFragment extends Fragment {
@@ -19,6 +21,8 @@ public class StuRightFragment extends Fragment {
         if (null == view) {
             view = inflater.inflate(R.layout.fragment_stu_right, container, false);
         }
+        //沉浸式状态栏
+        StatusBarCompat.setStatusBarColor(getActivity(), getResources().getColor(R.color.blue), true);
         return view;
     }
 }

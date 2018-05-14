@@ -1,6 +1,7 @@
 package cn.edu.nyist.Activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,11 @@ import android.support.v4.app.FragmentTransaction;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+
+import com.githang.statusbar.StatusBarCompat;
+
 import cn.edu.nyist.App;
 import cn.edu.nyist.Fragment.StuLeftFragment;
 import cn.edu.nyist.Fragment.StuMidFragment;
@@ -19,6 +25,7 @@ import cn.edu.nyist.LogUtil.Logger;
 import cn.edu.nyist.R;
 import cn.edu.nyist.Widget.ViewHolder;
 import cn.edu.nyist.util.MySharedPreference;
+import cn.edu.nyist.util.SystemUtil;
 
 public class MainActivity extends BaseActivity {
 
@@ -56,6 +63,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
+
+
         if (App.LOGIN_ROLE == App.ROLE_STUDENT) {
             if ( fg_stu_left == null ) {
                 fg_stu_left = new StuLeftFragment();
@@ -202,15 +211,15 @@ public class MainActivity extends BaseActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case R.id.navigation_left:
                     index_navigation = 1;
                     showViewOnActivity(); //显示对应的Fragment
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_mid:
                     index_navigation = 2;
                     showViewOnActivity(); //显示对应的Fragment
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_right:
                     index_navigation = 3;
                     showViewOnActivity(); //显示对应的Fragment
                     return true;
@@ -222,21 +231,22 @@ public class MainActivity extends BaseActivity {
      * 初始化APP，因为程序没有启动页面，把一些程序初始化的操作放在了这里
      */
     private void initApp() {
-        /**
+
         MySharedPreference.getSingleInstance(this).
                 setIsLogin(Boolean.TRUE).
                 setLoginRole(App.ROLE_STUDENT).
                 setLoginName("teacher");
-         */
-        /**
-        App.IS_LOGIN = Boolean.TRUE;
-        App.LOGIN_ROLE = App.ROLE_TEACHER;
-        App.LOGIN_USERNAME = "teacher";
-*/
 
+
+        App.IS_LOGIN = Boolean.TRUE;
+        App.LOGIN_ROLE = App.ROLE_STUDENT;
+        App.LOGIN_USERNAME = "teacher";
+
+        /**
         App.IS_LOGIN = MySharedPreference.getSingleInstance(this).getIsLogin();
         App.LOGIN_USERNAME = MySharedPreference.getSingleInstance(this).getLoginName();
         App.LOGIN_ROLE = MySharedPreference.getSingleInstance(this).getLoginRole();
+         */
 
     }
 

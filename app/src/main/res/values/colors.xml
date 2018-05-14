@@ -4,4 +4,19 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="nyist_white">#ffffff</color>
+
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black_top">#1B82D2</color>
+    <color name="white_background">#EDEDED</color>
+
+    <color name="blue">#1B82D2</color>
+    <color name="green">#18f435</color>
+    <color name="red">#e42727</color>
+    <color name="gray">#dadada</color>
+    <color name="spinner">#eae7e7</color>
+
+    <color name="disable">#778899</color>
+
 </resources>
