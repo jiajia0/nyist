@@ -5,16 +5,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.githang.statusbar.StatusBarCompat;
 
 import org.apache.commons.lang3.StringUtils;
 
-import cn.edu.nyist.LogUtil.Logger;
+
 import cn.edu.nyist.R;
 import cn.edu.nyist.Widget.ViewHolder;
-import cn.edu.nyist.util.MyUtil;
+
 
 /**
  * Created by yff on 2018/5/14.
@@ -44,7 +43,7 @@ public class ModifyPwdActivity extends BaseActivity implements OnClickListener{
         tie_new_pwd = holder.get(R.id.ac_modify_pwd_tie_new_pwd);
         tie_confirm_pwd = holder.get(R.id.ac_modify_pwd_tie_confirm_pwd);
         btu_submit = holder.get(R.id.ac_modify_pwd_btu_submit);
-        holder.setOnClickListener(this, R.id.ac_modify_pwd_btu_submit);
+        holder.setOnClickListener(this, R.id.ac_modify_pwd_btu_submit, R.id.ac_modify_pwd_tv_cacle);
     }
 
     /**

@@ -20,7 +20,7 @@
                 android:paddingLeft="16dp"
                 android:gravity="center_vertical"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:text="取消"/>
             <TextView
                 android:layout_width="match_parent"
@@ -36,7 +36,8 @@
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -78,7 +79,7 @@
         android:id="@+id/ac_modify_pwd_btu_submit"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/bg_longin_btn"
         android:text="提  交"
         android:textColor="@color/nyist_white"

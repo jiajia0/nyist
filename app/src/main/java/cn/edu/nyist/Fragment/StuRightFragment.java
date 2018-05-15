@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.githang.statusbar.StatusBarCompat;
 
 import cn.edu.nyist.Activity.ModifyPwdActivity;
+import cn.edu.nyist.Activity.StudentInfoAcitvity;
 import cn.edu.nyist.R;
 
 public class StuRightFragment extends Fragment implements View.OnClickListener{
@@ -45,7 +46,7 @@ public class StuRightFragment extends Fragment implements View.OnClickListener{
      * 点击个人中心
      */
     private void onClickPersonInfo() {
-
+        startActivity(new Intent(getActivity(), StudentInfoAcitvity.class));
     }
 
     /**
