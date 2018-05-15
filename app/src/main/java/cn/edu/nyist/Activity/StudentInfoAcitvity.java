@@ -42,11 +42,12 @@ public class StudentInfoAcitvity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
+        //沉浸式状态栏
         StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.blue), true);
         tv_back = holder.get(R.id.ac_stu_inf_tv_back);
         tv_name = holder.get(R.id.ac_stu_inf_tv_name);
         tv_id = holder.get(R.id.ac_stu_inf_tv_id);
-        tv_phone = holder.get(R.id.ac_stu_inf_ll_change_phone);
+        tv_phone = holder.get(R.id.ac_stu_inf_tv_phone);
         tv_school = holder.get(R.id.ac_stu_inf_tv_school);
         tv_department = holder.get(R.id.ac_stu_inf_tv_department);
         tv_major = holder.get(R.id.ac_stu_inf_tv_major);

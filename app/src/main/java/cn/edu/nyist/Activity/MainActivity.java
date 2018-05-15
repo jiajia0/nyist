@@ -232,11 +232,12 @@ public class MainActivity extends BaseActivity {
      */
     private void initApp() {
 
+        /**
         MySharedPreference.getSingleInstance(this).
                 setIsLogin(Boolean.TRUE).
-                setLoginRole(App.ROLE_STUDENT).
-                setLoginName("student");
-
+                setLoginRole(App.ROLE_TEACHER).
+                setLoginName("teacher");
+*/
 
         App.IS_LOGIN = MySharedPreference.getSingleInstance(this).getIsLogin();
         App.LOGIN_USERNAME = MySharedPreference.getSingleInstance(this).getLoginName();

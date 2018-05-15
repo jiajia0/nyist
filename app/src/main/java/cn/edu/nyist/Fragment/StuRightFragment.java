@@ -12,6 +12,7 @@ import com.githang.statusbar.StatusBarCompat;
 
 import cn.edu.nyist.Activity.ModifyPwdActivity;
 import cn.edu.nyist.Activity.StudentInfoAcitvity;
+import cn.edu.nyist.Activity.TeacherInfoActivity;
 import cn.edu.nyist.R;
 
 public class StuRightFragment extends Fragment implements View.OnClickListener{
@@ -53,7 +54,7 @@ public class StuRightFragment extends Fragment implements View.OnClickListener{
      * 点击辅导员信息
      */
     private void onClickAdminInfo() {
-
+        startActivity(new Intent(getActivity(), TeacherInfoActivity.class));
     }
 
     /**

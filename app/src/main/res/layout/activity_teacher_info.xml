@@ -1,6 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white_background" >
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="@color/blue"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/ac_tea_inf_tv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:text="返回"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:text="辅导员信息"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:background="@color/white_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="46dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="30dp">
+                    <TextView
+                        android:gravity="center_vertical|left"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:text="姓名"/>
+                    <TextView
+                        android:id="@+id/ac_tea_inf_tv_name"
+                        android:gravity="center_vertical|right"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/darkgray"
+                        android:textSize="18sp"
+                        android:text="yangfengfan"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_marginTop="1px"
+                android:layout_width="match_parent"
+                android:layout_height="46dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="30dp">
+                    <TextView
+                        android:gravity="center_vertical|left"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:text="电话"/>
+                    <TextView
+                        android:id="@+id/ac_tea_inf_tv_phone"
+                        android:gravity="center_vertical|right"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/darkgray"
+                        android:textSize="18sp"
+                        android:text="1615925642"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ac_tea_info_ll_school"
+                android:visibility="gone"
+                android:background="@color/white"
+                android:layout_marginTop="1px"
+                android:layout_width="match_parent"
+                android:layout_height="46dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="30dp">
+                    <TextView
+                        android:gravity="center_vertical|left"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:text="学校"/>
+                    <TextView
+                        android:id="@+id/ac_tea_inf_tv_school"
+                        android:gravity="center_vertical|right"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/darkgray"
+                        android:textSize="18sp"
+                        android:text="南阳理工学院"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ac_tea_info_ll_department"
+                android:visibility="gone"
+                android:background="@color/white"
+                android:layout_marginTop="1px"
+                android:layout_width="match_parent"
+                android:layout_height="46dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="30dp">
+                    <TextView
+                        android:gravity="center_vertical|left"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:text="院系"/>
+                    <TextView
+                        android:id="@+id/ac_tea_inf_tv_department"
+                        android:gravity="center_vertical|right"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/darkgray"
+                        android:textSize="18sp"
+                        android:text="软件学院"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
