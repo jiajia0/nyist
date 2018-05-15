@@ -14,6 +14,8 @@ import android.view.WindowManager;
 
 import com.githang.statusbar.StatusBarCompat;
 
+import java.io.Serializable;
+
 import cn.edu.nyist.App;
 import cn.edu.nyist.Fragment.StuLeftFragment;
 import cn.edu.nyist.Fragment.StuMidFragment;
@@ -37,7 +39,7 @@ public class MainActivity extends BaseActivity {
     Fragment fg_tea_mid;
     Fragment fg_tea_right;
 
-    int index_navigation = 1;
+    int index_navigation = 1; //BottomNavigationView指标
 
     @Override
     protected int getLayoutId() {
@@ -49,6 +51,9 @@ public class MainActivity extends BaseActivity {
         super.initDatas();
         initApp();
         Logger.init();
+        Logger.d("---------------"+MySharedPreference.getSingleInstance(this).getIsLogin());
+        Logger.d("---------------"+MySharedPreference.getSingleInstance(this).getLoginName());
+        Logger.d("---------------"+MySharedPreference.getSingleInstance(this).getLoginRole());
         /**
          * 登录控制
          */
@@ -56,15 +61,12 @@ public class MainActivity extends BaseActivity {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
-
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
-
-
         if (App.LOGIN_ROLE == App.ROLE_STUDENT) {
             if ( fg_stu_left == null ) {
                 fg_stu_left = new StuLeftFragment();
@@ -172,9 +174,6 @@ public class MainActivity extends BaseActivity {
      * 显示Fragment
      */
     private void showViewOnActivity() {
-
-        Logger.e("登录角色" + App.LOGIN_ROLE);
-
         if (App.LOGIN_ROLE == App.ROLE_STUDENT) {
             switch (index_navigation) {
                 case 1:
@@ -227,6 +226,7 @@ public class MainActivity extends BaseActivity {
             return false;
         }
     };
+
     /**
      * 初始化APP，因为程序没有启动页面，把一些程序初始化的操作放在了这里
      */
@@ -235,22 +235,11 @@ public class MainActivity extends BaseActivity {
         MySharedPreference.getSingleInstance(this).
                 setIsLogin(Boolean.TRUE).
                 setLoginRole(App.ROLE_STUDENT).
-                setLoginName("teacher");
+                setLoginName("student");
 
 
-        App.IS_LOGIN = Boolean.TRUE;
-        App.LOGIN_ROLE = App.ROLE_STUDENT;
-        App.LOGIN_USERNAME = "teacher";
-
-        /**
         App.IS_LOGIN = MySharedPreference.getSingleInstance(this).getIsLogin();
         App.LOGIN_USERNAME = MySharedPreference.getSingleInstance(this).getLoginName();
         App.LOGIN_ROLE = MySharedPreference.getSingleInstance(this).getLoginRole();
-         */
-
     }
-
-
-
-
 }

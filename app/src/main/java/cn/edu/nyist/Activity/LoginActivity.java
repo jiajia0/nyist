@@ -2,6 +2,7 @@ package cn.edu.nyist.Activity;
 
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
@@ -125,6 +126,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onClick(View v) {
+        Log.d("yff", "onClick: ---------------");
         switch (v.getId()) {
             case R.id.login:
                 String name = mUsername.getText().toString();
