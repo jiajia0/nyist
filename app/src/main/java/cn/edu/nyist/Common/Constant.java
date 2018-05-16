@@ -9,7 +9,8 @@ public interface Constant {
     /**
      * URL
      */
-    String BASE_URL = "http://192.168.56.1"; // 基础URL
+    //String BASE_URL = "http://192.168.56.1"; // 基础URL
+    String BASE_URL="http://192.168.30.246";
     String STU_LOGIN = BASE_URL + "/student/login.do"; // 学生登陆URL
     String STU_SET_PHONE = BASE_URL + "/student/set_phone.do"; // 学生修改手机URL
     String STU_GET_INFO = BASE_URL + "/student/get_self_info.do"; // 学生获取个人信息

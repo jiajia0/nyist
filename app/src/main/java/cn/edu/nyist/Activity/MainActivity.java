@@ -2,11 +2,14 @@ package cn.edu.nyist.Activity;
 
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -29,7 +32,7 @@ import cn.edu.nyist.Widget.ViewHolder;
 import cn.edu.nyist.util.MySharedPreference;
 import cn.edu.nyist.util.SystemUtil;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends AppCompatActivity {
 
     Fragment fg_current;
     Fragment fg_stu_left;
@@ -42,13 +45,9 @@ public class MainActivity extends BaseActivity {
     int index_navigation = 1; //BottomNavigationView指标
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_main;
-    }
-
-    @Override
-    protected void initDatas() {
-        super.initDatas();
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         initApp();
         Logger.init();
         Logger.d("---------------"+MySharedPreference.getSingleInstance(this).getIsLogin());
@@ -63,10 +62,6 @@ public class MainActivity extends BaseActivity {
         }
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-    }
-
-    @Override
-    protected void initViews(ViewHolder holder, View root) {
         if (App.LOGIN_ROLE == App.ROLE_STUDENT) {
             if ( fg_stu_left == null ) {
                 fg_stu_left = new StuLeftFragment();
@@ -85,6 +80,7 @@ public class MainActivity extends BaseActivity {
             }
         }
     }
+
 
     /**
      * 学生左视图
