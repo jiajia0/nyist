@@ -1,5 +1,7 @@
 package cn.edu.nyist;
 
+import cn.edu.nyist.Entity.Student;
+
 /**
  * 程序配置
  */
@@ -17,7 +19,6 @@ public class App {
      * 当前登录用户角色
      */
     public static int LOGIN_ROLE;
-
 
     /**
      * 用户角色分类

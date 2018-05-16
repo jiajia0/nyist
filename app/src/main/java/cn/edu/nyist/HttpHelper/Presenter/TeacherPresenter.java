@@ -30,6 +30,7 @@ public class TeacherPresenter extends BasePresenter {
     private AttenceRecord mAttenceRecord;
     private TeacherView mTeacherView;
     private ClassView mClassView;
+    private BaseView mBaseView;
     private StudentView mStudentView;
     private AttenceView mAttenceView;
     private BaseResponse mBaseResponse;
@@ -54,7 +55,11 @@ public class TeacherPresenter extends BasePresenter {
 
     @Override
     public void attachView(BaseView view) {
-        this.mTeacherView = (TeacherView)view;
+        this.mBaseView = view;
+    }
+
+    public void attachTeacherView(TeacherView teacherView) {
+        this.mTeacherView = teacherView;
     }
 
     /**

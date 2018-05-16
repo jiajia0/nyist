@@ -1,5 +1,6 @@
 package cn.edu.nyist.Activity;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import cn.edu.nyist.App;
 import cn.edu.nyist.Entity.AttenceRecord;
 import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
@@ -136,7 +138,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     return;
                 }
                 if (mStudentButton.isChecked()) {
-                    //mStudentPresenter.login(name, pswd);
+                    mStudentPresenter.attachStudentView(this);
+                    mStudentPresenter.login(name, pswd);
 
                     //mStudentPresenter.stuSetPhone(name,pswd);
 
@@ -157,8 +160,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                 }
                 if (mTeacherButton.isChecked()) {
-
-                    //mTeacherPresenter.login(name, pswd);
+                    mTeacherPresenter.attachTeacherView(this);
+                    mTeacherPresenter.login(name, pswd);
 
                     //mTeacherPresenter.teaSetPhone(name, pswd);
 
@@ -191,8 +194,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onSuccess(Student student) {
         Logger.d("student:status:" + student.getStatus());
         if (student.getStatus() == 0) {
-            Logger.d("student:" + student.getData().getName());
+            Logger.d("student:" + student.getData().getId());
             MySharedPreference.getSingleInstance(this).setIsLogin(Boolean.TRUE);
+            MySharedPreference.getSingleInstance(this).setLoginRole(1);
+            MySharedPreference.getSingleInstance(this).setLoginName(student.getData().getId());
+            App.LOGIN_USERNAME = student.getData().getId();
+            Logger.d("student222:" + App.LOGIN_USERNAME);
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
     }
 
@@ -204,8 +213,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onSuccess(Teacher teacher) {
         Logger.d("teacher:status:" + teacher.getStatus());
         if (teacher.getStatus() == 0) {
-            Logger.d("teacher:" + teacher.getData().getName());
+            Logger.d("teacher:" + teacher.getData().getId());
             MySharedPreference.getSingleInstance(this).setIsLogin(Boolean.TRUE);
+            MySharedPreference.getSingleInstance(this).setLoginRole(2);
+            MySharedPreference.getSingleInstance(this).setLoginName(teacher.getData().getId());
+            App.LOGIN_USERNAME = teacher.getData().getId();
+            Logger.d("teacher222:" + App.LOGIN_USERNAME);
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
     }
 

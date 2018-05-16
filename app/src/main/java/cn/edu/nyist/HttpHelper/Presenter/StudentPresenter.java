@@ -25,12 +25,14 @@ public class StudentPresenter extends BasePresenter {
     private CompositeSubscription mCompositeSubscription;
     private StudentView mStudentView;
     private TeacherView mTeacherView;
+    private BaseView mBaseView;
     private Student mStudent;
     private Teacher mTeacher;
     private BaseResponse mBaseResponse;
 
     public StudentPresenter(Context context) {
         this.mContext = context;
+        mCompositeSubscription = new CompositeSubscription();
     }
 
     @Override
@@ -48,7 +50,11 @@ public class StudentPresenter extends BasePresenter {
 
     @Override
     public void attachView(BaseView view) {
-        mStudentView = (StudentView) view;
+        mBaseView = view;
+    }
+
+    public void attachStudentView(StudentView studentView) {
+        mStudentView = studentView;
     }
 
     /**
@@ -102,7 +108,7 @@ public class StudentPresenter extends BasePresenter {
                     @Override
                     public void onCompleted() {
                         if (mBaseResponse != null) {
-                            mStudentView.onSuccess(mBaseResponse);
+                            mBaseView.onSuccess(mBaseResponse);
                         }
                     }
 
@@ -191,7 +197,7 @@ public class StudentPresenter extends BasePresenter {
                     @Override
                     public void onCompleted() {
                         if (mBaseResponse != null) {
-                            mStudentView.onSuccess(mBaseResponse);
+                            mBaseView.onSuccess(mBaseResponse);
                         }
                     }
 
