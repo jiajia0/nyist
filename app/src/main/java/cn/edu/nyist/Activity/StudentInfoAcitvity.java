@@ -52,12 +52,16 @@ public class StudentInfoAcitvity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initDatas() {
         super.initDatas();
+        // 从后台获取数据
         mStudentPresenter = new StudentPresenter(this);
-        mStudentPresenter.attachView(this);
+        mStudentPresenter.attachStudentView(this);
         Logger.d("leafage" + App.LOGIN_USERNAME);
-        String token = GetToken.getToken(this,Integer.valueOf(App.LOGIN_USERNAME), "attence.salt");
+        String token = GetToken.getToken(this,Integer.valueOf(App.LOGIN_USERNAME), "selfInfo.salt");
         Logger.d("studentinfo:" + token + "___" + App.LOGIN_USERNAME);
         mStudentPresenter.stuGetInfo(App.LOGIN_USERNAME, token);
+
+        // 添加进度条
+
     }
 
     @Override
@@ -136,10 +140,11 @@ public class StudentInfoAcitvity extends BaseActivity implements View.OnClickLis
             stu = student.getData();
             setData();
         }
+        // 取消进度条，提示成功
     }
 
     @Override
     public void onError(String result) {
-
+        // 取消进度条，提示失败
     }
 }

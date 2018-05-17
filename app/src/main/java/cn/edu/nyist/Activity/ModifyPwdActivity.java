@@ -115,10 +115,11 @@ public class ModifyPwdActivity extends BaseActivity implements OnClickListener, 
         if (baseResponse.getStatus() == 0) {
             toastLong("密码修改成功！");
         }
+        finish();
     }
 
     @Override
     public void onError(String result) {
-
+        finish();
     }
 }
