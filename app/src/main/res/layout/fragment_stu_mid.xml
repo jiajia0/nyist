@@ -15,18 +15,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <Button
-            android:id="@+id/set"
+            android:id="@+id/take_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="set"/>
 
         <Button
-            android:id="@+id/get"
+            android:id="@+id/attence"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="get"/>
+
     </LinearLayout>
 
-
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"/>
 
 </android.support.constraint.ConstraintLayout>
