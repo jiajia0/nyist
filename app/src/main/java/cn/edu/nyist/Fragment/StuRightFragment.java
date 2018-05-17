@@ -10,10 +10,14 @@ import android.view.ViewGroup;
 
 import com.githang.statusbar.StatusBarCompat;
 
+import cn.edu.nyist.Activity.LoginActivity;
 import cn.edu.nyist.Activity.ModifyPwdActivity;
 import cn.edu.nyist.Activity.StudentInfoAcitvity;
 import cn.edu.nyist.Activity.TeacherInfoActivity;
+import cn.edu.nyist.HttpHelper.Presenter.StudentPresenter;
+import cn.edu.nyist.HttpHelper.Presenter.TeacherPresenter;
 import cn.edu.nyist.R;
+import cn.edu.nyist.util.MySharedPreference;
 
 public class StuRightFragment extends Fragment implements View.OnClickListener{
 
@@ -68,7 +72,11 @@ public class StuRightFragment extends Fragment implements View.OnClickListener{
      * 退出登录
      */
     private void onClickExit() {
-
+        MySharedPreference.getSingleInstance(getContext()).setIsLogin(Boolean.FALSE);
+        MySharedPreference.getSingleInstance(getContext()).setLoginName(null);
+        MySharedPreference.getSingleInstance(getContext()).setLoginRole(0);
+        startActivity(new Intent(getActivity(), LoginActivity.class));
+        getActivity().finish();
     }
 
 

@@ -6,9 +6,16 @@ import android.widget.TextView;
 
 import com.githang.statusbar.StatusBarCompat;
 
+import cn.edu.nyist.App;
+import cn.edu.nyist.Entity.BaseResponse;
+import cn.edu.nyist.Entity.Student;
 import cn.edu.nyist.Entity.StudentData;
+import cn.edu.nyist.HttpHelper.Presenter.StudentPresenter;
+import cn.edu.nyist.HttpHelper.Views.StudentView;
+import cn.edu.nyist.LogUtil.Logger;
 import cn.edu.nyist.R;
 import cn.edu.nyist.Widget.ViewHolder;
+import cn.edu.nyist.util.GetToken;
 
 /**
  * Created by yff on 2018/5/14.
@@ -16,7 +23,9 @@ import cn.edu.nyist.Widget.ViewHolder;
  * 学生信息显示
  */
 
-public class StudentInfoAcitvity extends BaseActivity implements View.OnClickListener{
+public class StudentInfoAcitvity extends BaseActivity implements View.OnClickListener, StudentView{
+
+    private StudentPresenter mStudentPresenter;
 
     StudentData stu = new StudentData();
 
@@ -41,6 +50,17 @@ public class StudentInfoAcitvity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
+    protected void initDatas() {
+        super.initDatas();
+        mStudentPresenter = new StudentPresenter(this);
+        mStudentPresenter.attachView(this);
+        Logger.d("leafage" + App.LOGIN_USERNAME);
+        String token = GetToken.getToken(this,Integer.valueOf(App.LOGIN_USERNAME), "attence.salt");
+        Logger.d("studentinfo:" + token + "___" + App.LOGIN_USERNAME);
+        mStudentPresenter.stuGetInfo(App.LOGIN_USERNAME, token);
+    }
+
+    @Override
     protected void initViews(ViewHolder holder, View root) {
         //沉浸式状态栏
         StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.blue), true);
@@ -58,7 +78,7 @@ public class StudentInfoAcitvity extends BaseActivity implements View.OnClickLis
         tv_status = holder.get(R.id.ac_stu_inf_tv_status);
         ll_change_phone = holder.get(R.id.ac_stu_inf_ll_change_phone);
         holder.setOnClickListener(this, R.id.ac_stu_inf_tv_back, R.id.ac_stu_inf_ll_change_phone);
-        setData();
+        //setData();
     }
 
     /**
@@ -102,5 +122,24 @@ public class StudentInfoAcitvity extends BaseActivity implements View.OnClickLis
                 onClickPhone();
                 break;
         }
+    }
+
+    @Override
+    public void onSuccess(BaseResponse baseResponse) {
+
+    }
+
+    @Override
+    public void onSuccess(Student student) {
+        Logger.d("studentInfo:" + student.getStatus());
+        if (student.getStatus() == 0) {
+            stu = student.getData();
+            setData();
+        }
+    }
+
+    @Override
+    public void onError(String result) {
+
     }
 }

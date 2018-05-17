@@ -7,8 +7,12 @@ import android.widget.TextView;
 import com.githang.statusbar.StatusBarCompat;
 
 import cn.edu.nyist.App;
+import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Teacher;
 import cn.edu.nyist.Entity.TeacherData;
+import cn.edu.nyist.HttpHelper.Presenter.StudentPresenter;
+import cn.edu.nyist.HttpHelper.Views.TeacherView;
+import cn.edu.nyist.LogUtil.Logger;
 import cn.edu.nyist.R;
 import cn.edu.nyist.Widget.ViewHolder;
 import cn.edu.nyist.util.MySharedPreference;
@@ -19,9 +23,11 @@ import cn.edu.nyist.util.MySharedPreference;
  * 辅导员信息显示
  */
 
-public class TeacherInfoActivity extends BaseActivity implements View.OnClickListener{
+public class TeacherInfoActivity extends BaseActivity implements View.OnClickListener,TeacherView{
 
     TeacherData tea = new TeacherData();
+
+    private StudentPresenter mStudentPresenter;
 
     TextView tv_back;
     TextView tv_name;
@@ -39,6 +45,9 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
+
+        Logger.d("teacherinfo initViews-----------------");
+
         //沉浸式状态栏
         StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.blue), true);
         tv_back = holder.get(R.id.ac_tea_inf_tv_back);
@@ -54,7 +63,17 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             tv_department = holder.get(R.id.ac_tea_inf_tv_department);
         }
         holder.setOnClickListener(this, R.id.ac_tea_inf_tv_back);
-        setData();
+
+    }
+
+    @Override
+    protected void initDatas() {
+        super.initDatas();
+        Logger.d("teacherinfo initdatas-----------------");
+        mStudentPresenter = new StudentPresenter(this);
+        mStudentPresenter.onCreate();
+        mStudentPresenter.attachTeacherView(this);
+        mStudentPresenter.stuGetTeacherInfo(App.LOGIN_USERNAME);
     }
 
     /**
@@ -86,5 +105,30 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                 onCliclBack();
                 finish();
         }
+    }
+
+    @Override
+    public void onSuccess(BaseResponse baseResponse) {
+
+    }
+
+    /**
+     * 成功获得教师信息
+     * @param teacher
+     */
+    @Override
+    public void onSuccess(Teacher teacher) {
+        Logger.d("tea:" + teacher.getStatus());
+        if (teacher.getStatus() == 0) {
+            tea = teacher.getData();
+            Logger.d("tea:" + tea.getName());
+            Logger.d("tea:" + tea.getPhone());
+            setData();
+        }
+    }
+
+    @Override
+    public void onError(String result) {
+        Logger.d("teacherinfo---error:" + result);
     }
 }
