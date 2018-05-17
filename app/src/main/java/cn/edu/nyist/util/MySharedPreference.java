@@ -89,7 +89,7 @@ public class MySharedPreference {
      * @return MySharedPreference
      */
     public MySharedPreference setLoginName(String loginName) {
-        editor.putString(LOGIN_NAME, loginName);
+        editor.putString(LOGIN_NAME, loginName).commit();
         return mySharedPreference;
     }
 }
