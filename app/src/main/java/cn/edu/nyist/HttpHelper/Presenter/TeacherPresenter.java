@@ -5,11 +5,13 @@ import android.content.Context;
 import cn.edu.nyist.Entity.AttenceRecord;
 import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
+import cn.edu.nyist.Entity.StudentForClass;
 import cn.edu.nyist.Entity.Teacher;
 import cn.edu.nyist.Entity.TeacherClass;
 import cn.edu.nyist.HttpHelper.Views.AttenceView;
 import cn.edu.nyist.HttpHelper.Views.BaseView;
 import cn.edu.nyist.HttpHelper.Views.ClassView;
+import cn.edu.nyist.HttpHelper.Views.StudentForClassView;
 import cn.edu.nyist.HttpHelper.Views.StudentView;
 import cn.edu.nyist.HttpHelper.Views.TeacherView;
 import rx.Observer;
@@ -25,16 +27,20 @@ import rx.subscriptions.CompositeSubscription;
 public class TeacherPresenter extends BasePresenter {
     private Context mContext;
     private CompositeSubscription mCompositeSubscription;
+    // 信息实体
     private Teacher mTeacher;
     private Student mStudent;
     private AttenceRecord mAttenceRecord;
+    private StudentForClass mStudentForClass;
+    private BaseResponse mBaseResponse;
+    private TeacherClass mTeacherClass;
+    // 回掉视图
     private TeacherView mTeacherView;
     private ClassView mClassView;
     private BaseView mBaseView;
     private StudentView mStudentView;
     private AttenceView mAttenceView;
-    private BaseResponse mBaseResponse;
-    private TeacherClass mTeacherClass;
+    private StudentForClassView mStudentForClassView;
 
     public TeacherPresenter(Context context) {
         mContext = context;
@@ -84,6 +90,14 @@ public class TeacherPresenter extends BasePresenter {
      */
     public void attachAttenceView(AttenceView attenceView) {
         this.mAttenceView = attenceView;
+    }
+
+    /**
+     * 教师获取某个班级下的信息时需要回掉该接口
+     * @param studentForClassView
+     */
+    public void attachStudentForClassView(StudentForClassView studentForClassView) {
+        this.mStudentForClassView = studentForClassView;
     }
 
     /**
@@ -257,6 +271,34 @@ public class TeacherPresenter extends BasePresenter {
                     @Override
                     public void onNext(AttenceRecord attenceRecord) {
                         mAttenceRecord = attenceRecord;
+                    }
+                }));
+    }
+
+    /**
+     * 教师获取某个班级的学生信息
+     * @param classNum
+     */
+    public void teaGetStudentInfo(String classNum) {
+        mCompositeSubscription.add(mDataManager.teaGetStudentInfo(mContext, classNum)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<StudentForClass>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mStudentForClass != null) {
+                            mStudentForClassView.onSuccess(mStudentForClass);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mStudentForClassView.onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(StudentForClass studentForClass) {
+                        mStudentForClass = studentForClass;
                     }
                 }));
     }

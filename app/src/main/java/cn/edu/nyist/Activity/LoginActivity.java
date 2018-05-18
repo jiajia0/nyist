@@ -14,12 +14,14 @@ import cn.edu.nyist.App;
 import cn.edu.nyist.Entity.AttenceRecord;
 import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
+import cn.edu.nyist.Entity.StudentForClass;
 import cn.edu.nyist.Entity.Teacher;
 import cn.edu.nyist.Entity.TeacherClass;
 import cn.edu.nyist.HttpHelper.Presenter.StudentPresenter;
 import cn.edu.nyist.HttpHelper.Presenter.TeacherPresenter;
 import cn.edu.nyist.HttpHelper.Views.AttenceView;
 import cn.edu.nyist.HttpHelper.Views.ClassView;
+import cn.edu.nyist.HttpHelper.Views.StudentForClassView;
 import cn.edu.nyist.HttpHelper.Views.StudentView;
 import cn.edu.nyist.HttpHelper.Views.TeacherView;
 import cn.edu.nyist.LogUtil.Logger;
@@ -34,7 +36,7 @@ import cn.edu.nyist.util.PropertiesUtil;
  * DESCRIPTION : 登陆Activity
  */
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener, StudentView, TeacherView, ClassView, AttenceView {
+public class LoginActivity extends BaseActivity implements View.OnClickListener, StudentView, TeacherView, ClassView, AttenceView ,StudentForClassView{
 
     EditText mUsername;
     EditText mPassword;
@@ -181,6 +183,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     // 生成更新照片的token，用来更新学生照片
                     String token = GetToken.getToken(this,Integer.valueOf(name), "img.salt");
                     Logger.d("更新照片的token：" + token);
+
+                    // 教师获取班级信息回掉接口
+                    mTeacherPresenter.attachStudentForClassView(this);
+                    mTeacherPresenter.teaGetStudentInfo(name);
                 }
                 break;
         }
@@ -256,6 +262,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (attenceRecord.getStatus() == 0) {
             Logger.d("classNum:" + attenceRecord.getData().size());
             Logger.d("class:" + attenceRecord.getData().get(0));
+        }
+    }
+
+    @Override
+    public void onSuccess(StudentForClass student) {
+        Logger.d("StudentForClass:status:" + student.getStatus());
+        if (student.getStatus() == 0) {
+            Logger.d("classNum:" + student.getData().size());
+            Logger.d("class:" + student.getData().get(0).getName());
         }
     }
 

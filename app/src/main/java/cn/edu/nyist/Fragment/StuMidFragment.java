@@ -27,22 +27,27 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import cn.edu.nyist.App;
+import cn.edu.nyist.Entity.BaseResponse;
+import cn.edu.nyist.HttpHelper.Presenter.StudentPresenter;
+import cn.edu.nyist.HttpHelper.Views.BaseView;
 import cn.edu.nyist.LogUtil.Logger;
 import cn.edu.nyist.R;
+import cn.edu.nyist.util.GetToken;
 import cn.edu.nyist.util.MySharedPreference;
 
 import static android.app.Activity.RESULT_OK;
 
-public class StuMidFragment extends Fragment implements View.OnClickListener {
+public class StuMidFragment extends Fragment implements View.OnClickListener,BaseView {
 
     public static final int PHOTO_REQUEST_CAREMA = 1;// 拍照
-    public static final int CROP_PHOTO = 2;
+    public static final int CROP_PHOTO = 2;// 剪裁
     private Button takePhoto;
     private Button attence;
     private ImageView picture;
     private Uri imageUri;
-
     public static File tempFile;
+
+    private StudentPresenter mStudentPresenter;
 
     View view;
 
@@ -51,6 +56,9 @@ public class StuMidFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         takePhoto = (Button) getActivity().findViewById(R.id.take_photo);
         picture = (ImageView) getActivity().findViewById(R.id.picture);
+
+        mStudentPresenter = new StudentPresenter(getContext());
+        mStudentPresenter.attachView(this);
     }
 
     @Nullable
@@ -98,21 +106,34 @@ public class StuMidFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            // 进行拍照
             case R.id.take_photo:
                 openCamera(getActivity());
                 //打开系统相册方法
                 //openGallery();
                 break;
+                // 进行考勤
             case R.id.attence:
-                if (tempFile != null) {
-                    Logger.d("tempFile is not Null!");
+                if (tempFile == null) {
+                    Logger.d("tempFile is Null!");
+                    Toast.makeText(getContext(), "图片为空！", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    // 生成带设备号的token，用来查寝
+                    String token = getAttenceToken();
+                    mStudentPresenter.stuAttence(App.LOGIN_USERNAME, token, tempFile);
+                    Toast.makeText(getContext(), "提交到服务器", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(getContext(), "提交到服务器", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
 
-
+    private String getAttenceToken() {
+        // 生成带设备号的token，用来查寝
+        String token = GetToken.getEquipToken(getContext(),Integer.valueOf(App.LOGIN_USERNAME), "198127398273457","attence.salt");
+        Logger.d("带设备号的token：" + token);
+        return token;
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -204,5 +225,22 @@ public class StuMidFragment extends Fragment implements View.OnClickListener {
     public static boolean hasSdcard() {
         return Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED);
+    }
+
+    /**
+     * 考勤成功回掉函数
+     * @param baseResponse
+     */
+    @Override
+    public void onSuccess(BaseResponse baseResponse) {
+        Logger.d("attence:" + baseResponse.getStatus());
+        if (baseResponse.getStatus() == 0) {
+            Toast.makeText(getContext(), "考勤成功！", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onError(String result) {
+        Toast.makeText(getContext(), "未知异常！", Toast.LENGTH_SHORT).show();
     }
 }
