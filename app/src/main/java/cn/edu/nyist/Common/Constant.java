@@ -24,4 +24,5 @@ public interface Constant {
     String TEA_SET_DORMNUM = BASE_URL + "/teacher/set_student_dormNum.do"; //教师修改学生寝室号
     String TEA_UPDATE_STUIMG = BASE_URL + "/teacher/update_student_img.do"; //教师修改学生照片
     String TEA_GET_ATTENCE_RECORD = BASE_URL + "/teacher/get_attence_record.do"; //教师得到考勤记录
+    String TEA_GET_STUDENT_INFO = BASE_URL + "/teacher/get_students_info.do"; // 教师获得学生信息
 }

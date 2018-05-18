@@ -1,9 +1,14 @@
 package cn.edu.nyist.HttpHelper;
 
+import android.content.Context;
+
+import java.io.File;
+
 import cn.edu.nyist.Common.Constant;
 import cn.edu.nyist.Entity.AttenceRecord;
 import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
+import cn.edu.nyist.Entity.StudentForClass;
 import cn.edu.nyist.Entity.Teacher;
 import cn.edu.nyist.Entity.TeacherClass;
 import retrofit2.http.Field;
@@ -40,6 +45,9 @@ public interface HttpService {
     @POST(Constant.STU_UPDATE_PASSWORD)
     Observable<BaseResponse> stuUpdatePassword(@Field("id") String username, @Field("token") String token,@Field("oldPass") String oldPass,@Field("newPass") String newPass,@Field("confirmPass") String confirmPass);
     // 学生考勤接口
+    @FormUrlEncoded
+    @POST(Constant.STU_ATTENCE)
+    Observable<BaseResponse> stuAttence(@Field("id") String username, @Field("token") String token, @Field("file") File file);
 
 
     // 教师接口------------------------------------
@@ -67,6 +75,10 @@ public interface HttpService {
     @FormUrlEncoded
     @POST(Constant.TEA_GET_ATTENCE_RECORD)
     Observable<AttenceRecord> teaGetAttenceRecord(@Field("id") String username, @Field("week") String week, @Field("classNum") String classNum);
+    // 辅导员获取学生信息
+    @FormUrlEncoded
+    @POST(Constant.TEA_GET_STUDENT_INFO)
+    Observable<StudentForClass> teaGetStudentInfo(@Field("classNum") String classNum);
     // 辅导员修改学生照片
 
 }

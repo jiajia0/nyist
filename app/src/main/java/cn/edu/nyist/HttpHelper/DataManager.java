@@ -2,10 +2,13 @@ package cn.edu.nyist.HttpHelper;
 
 import android.content.Context;
 
+import java.io.File;
+
 import cn.edu.nyist.Common.Constant;
 import cn.edu.nyist.Entity.AttenceRecord;
 import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
+import cn.edu.nyist.Entity.StudentForClass;
 import cn.edu.nyist.Entity.Teacher;
 import cn.edu.nyist.Entity.TeacherClass;
 import rx.Observable;
@@ -101,6 +104,19 @@ public class DataManager {
         return mHttpService.stuGetTeacherInfo(username);
     }
 
+    /**
+     * 学生考勤接口
+     * @param context
+     * @param username
+     * @param token
+     * @param file
+     * @return
+     */
+    public Observable<BaseResponse> stuAttence(Context context, String username,String token,File file) {
+        mHttpService = mHttpHelper.setContext(context).getServer();
+        return mHttpService.stuAttence(username, token, file);
+    }
+
     // 教师接口------------------------------------------------
     /**
      * 教师登陆
@@ -161,9 +177,27 @@ public class DataManager {
         return mHttpService.teaSetDormNum(username, token, dormNum);
     }
 
+    /**
+     * 辅导员获取查寝信息
+     * @param context
+     * @param username
+     * @param week
+     * @param classNum
+     * @return
+     */
     public Observable<AttenceRecord> teaGetAttenceRecord(Context context,String username,String week,String classNum) {
         mHttpService = mHttpHelper.setContext(context).getServer();
         return mHttpService.teaGetAttenceRecord(username, week, classNum);
     }
 
+    /**
+     * 教师获取某个班级下的学生信息
+     * @param context
+     * @param classNum
+     * @return
+     */
+    public Observable<StudentForClass> teaGetStudentInfo(Context context,String classNum) {
+        mHttpService = mHttpHelper.setContext(context).getServer();
+        return mHttpService.teaGetStudentInfo(classNum);
+    }
 }

@@ -2,6 +2,8 @@ package cn.edu.nyist.HttpHelper.Presenter;
 
 import android.content.Context;
 
+import java.io.File;
+
 import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Student;
 import cn.edu.nyist.Entity.Teacher;
@@ -114,7 +116,7 @@ public class StudentPresenter extends BasePresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        mStudentView.onError(e.getMessage());
+                        mBaseView.onError(e.getMessage());
                     }
 
                     @Override
@@ -171,7 +173,7 @@ public class StudentPresenter extends BasePresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        mStudentView.onError(e.getMessage());
+                        mTeacherView.onError(e.getMessage());
                     }
 
                     @Override
@@ -203,7 +205,7 @@ public class StudentPresenter extends BasePresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        mStudentView.onError(e.getMessage());
+                        mBaseView.onError(e.getMessage());
                     }
 
                     @Override
@@ -213,4 +215,33 @@ public class StudentPresenter extends BasePresenter {
                 }));
     }
 
+    /**
+     * 学生考勤
+     * @param username
+     * @param token
+     * @param file
+     */
+    public void stuAttence(String username, String token, File file) {
+        mCompositeSubscription.add(mDataManager.stuAttence(mContext, username, token, file)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mBaseResponse != null) {
+                            mBaseView.onSuccess(mBaseResponse);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mBaseView.onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        mBaseResponse = baseResponse;
+                    }
+                }));
+    }
 }
