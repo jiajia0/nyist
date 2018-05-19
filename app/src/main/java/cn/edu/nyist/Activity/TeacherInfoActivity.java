@@ -11,6 +11,7 @@ import cn.edu.nyist.Entity.BaseResponse;
 import cn.edu.nyist.Entity.Teacher;
 import cn.edu.nyist.Entity.TeacherData;
 import cn.edu.nyist.HttpHelper.Presenter.StudentPresenter;
+import cn.edu.nyist.HttpHelper.Presenter.TeacherPresenter;
 import cn.edu.nyist.HttpHelper.Views.TeacherView;
 import cn.edu.nyist.LogUtil.Logger;
 import cn.edu.nyist.R;
@@ -27,6 +28,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
     TeacherData tea = new TeacherData();
 
+    private TeacherPresenter mTeacherPresenter;
     private StudentPresenter mStudentPresenter;
 
     TextView tv_back;
@@ -69,11 +71,21 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initDatas() {
         super.initDatas();
+        // 如果时教师
+        if (MySharedPreference.getSingleInstance(this).getLoginRole() == App.ROLE_TEACHER) {
+            mTeacherPresenter = new TeacherPresenter(this);
+            mTeacherPresenter.onCreate();
+            mTeacherPresenter.attachTeacherView(this);
+            mTeacherPresenter.teaGetInfo(App.LOGIN_USERNAME);
+        }
+        // 如果是学生
+        if (MySharedPreference.getSingleInstance(this).getLoginRole() == App.ROLE_STUDENT) {
+            mStudentPresenter = new StudentPresenter(this);
+            mStudentPresenter.onCreate();
+            mStudentPresenter.attachTeacherView(this);
+            mStudentPresenter.stuGetTeacherInfo(App.LOGIN_USERNAME);
+        }
         Logger.d("teacherinfo initdatas-----------------");
-        mStudentPresenter = new StudentPresenter(this);
-        mStudentPresenter.onCreate();
-        mStudentPresenter.attachTeacherView(this);
-        mStudentPresenter.stuGetTeacherInfo(App.LOGIN_USERNAME);
     }
 
     /**

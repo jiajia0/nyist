@@ -14,6 +14,7 @@ import com.githang.statusbar.StatusBarCompat;
 
 import cn.edu.nyist.Activity.LoginActivity;
 import cn.edu.nyist.Activity.TeacherInfoActivity;
+import cn.edu.nyist.LogUtil.Logger;
 import cn.edu.nyist.R;
 import cn.edu.nyist.util.MySharedPreference;
 
@@ -41,9 +42,8 @@ public class TeaRightFragment extends Fragment implements View.OnClickListener{
     }
 
     private void initData() {
-        ll_myInfo = view.findViewById(R.id.fg_tea_right_ll_personInfo);
-        btu_exit = view.findViewById(R.id.fg_tea_right_btu_exit);
-
+        view.findViewById(R.id.fg_tea_right_ll_personInfo).setOnClickListener(this);
+        view.findViewById(R.id.fg_tea_right_btu_exit).setOnClickListener(this);
     }
 
     private void onClickInfo() {
