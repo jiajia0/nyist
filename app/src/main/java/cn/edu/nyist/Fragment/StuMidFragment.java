@@ -2,7 +2,9 @@ package cn.edu.nyist.Fragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -14,6 +16,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +51,7 @@ public class StuMidFragment extends Fragment implements View.OnClickListener,Bas
     public static File tempFile;
 
     private StudentPresenter mStudentPresenter;
+    private ProgressDialog mProgress;
 
     View view;
 
@@ -59,6 +63,8 @@ public class StuMidFragment extends Fragment implements View.OnClickListener,Bas
 
         mStudentPresenter = new StudentPresenter(getContext());
         mStudentPresenter.attachView(this);
+
+        mProgress = new ProgressDialog(getContext());
     }
 
     @Nullable
@@ -103,28 +109,65 @@ public class StuMidFragment extends Fragment implements View.OnClickListener,Bas
 //        });
     }
 
+    /**
+     * 对话框，提示拍照过程中不能发生变化
+     */
+    public void showDialog() {
+        new AlertDialog.Builder(getContext())
+                .setTitle("确认对话框")
+                .setMessage("请确保拍照过程中持续的连接指定的wifi，否则会认证失败！")
+                .setNegativeButton("取消",null)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        App.IS_PASS = Boolean.TRUE;
+                        openCamera(getActivity());
+                    }
+                }).show();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             // 进行拍照
             case R.id.take_photo:
-                openCamera(getActivity());
+                showDialog();
+                //openCamera(getActivity());
                 //打开系统相册方法
                 //openGallery();
                 break;
                 // 进行考勤
             case R.id.attence:
+
                 if (tempFile == null) {
                     Logger.d("tempFile is Null!");
                     Toast.makeText(getContext(), "图片为空！", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
+
+                    if (!App.IS_PASS) {
+                        Toast.makeText(getContext(), "考勤失败，拍照过程中Wifi状态发生变化，请中心尝试！", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     // 生成带设备号的token，用来查寝
                     String token = getAttenceToken();
                     mStudentPresenter.stuAttence(App.LOGIN_USERNAME, token, tempFile);
                     Toast.makeText(getContext(), "提交到服务器", Toast.LENGTH_SHORT).show();
+                    showProgress(true);
                 }
                 break;
+        }
+    }
+
+    private void showProgress(final boolean show) {
+        mProgress.setMessage("提交中...");
+        mProgress.setCancelable(false);
+
+        if (show) {
+            mProgress.show();
+        } else {
+            mProgress.dismiss();
         }
     }
 
@@ -235,6 +278,7 @@ public class StuMidFragment extends Fragment implements View.OnClickListener,Bas
     public void onSuccess(BaseResponse baseResponse) {
         Logger.d("attence:" + baseResponse.getStatus());
         if (baseResponse.getStatus() == 0) {
+            showProgress(false);
             Toast.makeText(getContext(), "考勤成功！", Toast.LENGTH_SHORT).show();
         }
     }
@@ -242,5 +286,6 @@ public class StuMidFragment extends Fragment implements View.OnClickListener,Bas
     @Override
     public void onError(String result) {
         Toast.makeText(getContext(), "未知异常！", Toast.LENGTH_SHORT).show();
+        showProgress(false);
     }
 }

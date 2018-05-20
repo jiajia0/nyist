@@ -1,6 +1,8 @@
 package cn.edu.nyist.Activity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,6 +31,7 @@ import cn.edu.nyist.Fragment.TeaRightFragment;
 import cn.edu.nyist.LogUtil.Logger;
 import cn.edu.nyist.R;
 import cn.edu.nyist.Widget.ViewHolder;
+import cn.edu.nyist.WifiUtils.WifiConnectChangeReceiver;
 import cn.edu.nyist.util.MySharedPreference;
 import cn.edu.nyist.util.SystemUtil;
 
@@ -43,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     Fragment fg_tea_right;
 
     int index_navigation = 1; //BottomNavigationView指标
+
+    WifiConnectChangeReceiver mWifiConnectChangeReceiver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -228,14 +233,31 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initApp() {
 
-        /**
       MySharedPreference.getSingleInstance(this).
              setIsLogin(Boolean.TRUE).
                 setLoginRole(App.ROLE_STUDENT).
-               setLoginName("yang");
-*/
+               setLoginName("1515925444");
+
         App.IS_LOGIN = MySharedPreference.getSingleInstance(this).getIsLogin();
         App.LOGIN_USERNAME = MySharedPreference.getSingleInstance(this).getLoginName();
         App.LOGIN_ROLE = MySharedPreference.getSingleInstance(this).getLoginRole();
+
+
+        // 注册广播
+        mWifiConnectChangeReceiver = new WifiConnectChangeReceiver();
+        IntentFilter intentFilter = new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        registerReceiver(mWifiConnectChangeReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mWifiConnectChangeReceiver);
     }
 }

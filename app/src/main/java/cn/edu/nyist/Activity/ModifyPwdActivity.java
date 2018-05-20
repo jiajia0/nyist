@@ -69,6 +69,7 @@ public class ModifyPwdActivity extends BaseActivity implements OnClickListener, 
         String token = GetToken.getToken(this, Integer.valueOf(username), "updatePass.salt");
         //mStudentPresenter.stuUpdatePassword(name, token,"123456","666123","666123");
         mStudentPresenter.stuUpdatePassword(username, token, tie_old_pwd.getText().toString(), tie_new_pwd.getText().toString(), tie_confirm_pwd.getText().toString());
+        showProgress(true, "修改中...");
     }
 
     /**
@@ -111,6 +112,7 @@ public class ModifyPwdActivity extends BaseActivity implements OnClickListener, 
      */
     @Override
     public void onSuccess(BaseResponse baseResponse) {
+        showProgress(false, "");
         Logger.d("modifypwd:" + baseResponse.getStatus());
         if (baseResponse.getStatus() == 0) {
             toastLong("密码修改成功！");
@@ -120,6 +122,7 @@ public class ModifyPwdActivity extends BaseActivity implements OnClickListener, 
 
     @Override
     public void onError(String result) {
+        showProgress(false, "");
         finish();
     }
 }

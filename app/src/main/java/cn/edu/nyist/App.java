@@ -21,6 +21,13 @@ public class App {
     public static int LOGIN_ROLE;
 
     /**
+     * 拍照过程中必须连接wifi，否则不给予通过
+     * 0：失败
+     * 1：通过
+     */
+    public static Boolean IS_PASS = Boolean.FALSE;
+
+    /**
      * 用户角色分类
      */
     public final static int ROLE_NULL = 0; //用户角色位置

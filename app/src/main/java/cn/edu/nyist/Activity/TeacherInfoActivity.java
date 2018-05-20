@@ -85,6 +85,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             mStudentPresenter.attachTeacherView(this);
             mStudentPresenter.stuGetTeacherInfo(App.LOGIN_USERNAME);
         }
+        showProgress(true, "获取信息中...");
         Logger.d("teacherinfo initdatas-----------------");
     }
 
@@ -121,7 +122,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onSuccess(BaseResponse baseResponse) {
-
+        showProgress(false, "");
     }
 
     /**
@@ -137,10 +138,12 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             Logger.d("tea:" + tea.getPhone());
             setData();
         }
+        showProgress(false, "");
     }
 
     @Override
     public void onError(String result) {
         Logger.d("teacherinfo---error:" + result);
+        showProgress(false, "");
     }
 }

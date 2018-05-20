@@ -61,7 +61,7 @@ public class StudentInfoAcitvity extends BaseActivity implements View.OnClickLis
         mStudentPresenter.stuGetInfo(App.LOGIN_USERNAME, token);
 
         // 添加进度条
-
+        showProgress(true, "获取信息中...");
     }
 
     @Override
@@ -130,7 +130,7 @@ public class StudentInfoAcitvity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onSuccess(BaseResponse baseResponse) {
-
+        showProgress(false, "");
     }
 
     @Override
@@ -141,10 +141,12 @@ public class StudentInfoAcitvity extends BaseActivity implements View.OnClickLis
             setData();
         }
         // 取消进度条，提示成功
+        showProgress(false, "");
     }
 
     @Override
     public void onError(String result) {
         // 取消进度条，提示失败
+        showProgress(false, "");
     }
 }

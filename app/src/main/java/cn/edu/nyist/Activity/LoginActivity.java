@@ -157,8 +157,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     //mStudentPresenter.stuUpdatePassword(name, token,"123456","666123","666123");
 
                     // 生成带设备号的token，用来查寝
-                    String token = GetToken.getEquipToken(this,Integer.valueOf(name), "198127398273457","attence.salt");
-                    Logger.d("带设备号的token：" + token);
+                    //String token = GetToken.getEquipToken(this,Integer.valueOf(name), "198127398273457","attence.salt");
+                    //Logger.d("带设备号的token：" + token);
+
+                    showProgress(true,"登陆中...");
 
                 }
                 if (mTeacherButton.isChecked()) {
@@ -181,8 +183,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     //mTeacherPresenter.teaGetAttenceRecord(name,"星期六",pswd);
 
                     // 生成更新照片的token，用来更新学生照片
-                    String token = GetToken.getToken(this,Integer.valueOf(name), "img.salt");
-                    Logger.d("更新照片的token：" + token);
+                    //String token = GetToken.getToken(this,Integer.valueOf(name), "img.salt");
+                    //Logger.d("更新照片的token：" + token);
 
                     // 教师获取班级信息回掉接口
                     mTeacherPresenter.attachStudentForClassView(this);
@@ -276,6 +278,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onError(String result) {
+        showProgress(false, "");
         Logger.d(result);
     }
 }

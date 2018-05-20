@@ -1,5 +1,6 @@
 package cn.edu.nyist.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected PresenterManager mPresenterManager;
     protected ViewHolder mViewHolder;
     private Toast mToast;
+    protected ProgressDialog mProgress;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +53,21 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 初始化数据，调用位置在 initViews 之前
      */
     protected void initDatas() {
+        mProgress = new ProgressDialog(this);
+    }
+
+    /**
+     * @param show
+     */
+    protected void showProgress(final boolean show, String message) {
+        mProgress.setMessage(message);
+        mProgress.setCancelable(false);
+
+        if (show) {
+            mProgress.show();
+        } else {
+            mProgress.dismiss();
+        }
     }
 
     /**
