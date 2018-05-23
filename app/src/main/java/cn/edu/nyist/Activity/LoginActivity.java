@@ -189,6 +189,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     // 教师获取班级信息回掉接口
                     mTeacherPresenter.attachStudentForClassView(this);
                     mTeacherPresenter.teaGetStudentInfo(name);
+                    showProgress(true,"登陆中...");
                 }
                 break;
         }

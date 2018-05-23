@@ -233,10 +233,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initApp() {
 
-        MySharedPreference.getSingleInstance(this).
-                setIsLogin(Boolean.TRUE).
-                setLoginRole(App.ROLE_TEACHER).
-                setLoginName("1515925444");
+//        MySharedPreference.getSingleInstance(this).
+//                setIsLogin(Boolean.TRUE).
+//                setLoginRole(App.ROLE_TEACHER).
+//                setLoginName("1515925444");
 
 
         App.IS_LOGIN = MySharedPreference.getSingleInstance(this).getIsLogin();
