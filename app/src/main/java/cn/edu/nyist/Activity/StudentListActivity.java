@@ -82,6 +82,7 @@ public class StudentListActivity extends BaseActivity implements AdapterView.OnI
      * 从后台获取学生信息
      */
     public void getStudentInfo() {
+        // 需要传入班级代号
         mTeacherPresenter.teaGetStudentInfo("169207");
         showProgress(true,"获取信息中...");
     }
