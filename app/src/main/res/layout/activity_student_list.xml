@@ -19,7 +19,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:text="班级信息"/>
+                android:text="学生列表"/>
         </RelativeLayout>
     </LinearLayout>
 
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ListView
-            android:id="@+id/fg_tea_mid_lv"
+            android:id="@+id/ac_student_list_lv"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

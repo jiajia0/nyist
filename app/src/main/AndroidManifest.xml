@@ -25,6 +25,10 @@
         <activity android:name=".Activity.ModifyPwdActivity" />
         <activity android:name=".Activity.StudentInfoAcitvity" />
         <activity android:name=".Activity.TeacherInfoActivity" />
+        <activity android:name=".Activity.ManageStudentActivity" />
+        <activity android:name=".Activity.StudentListActivity" />
+        <activity android:name=".Activity.ModifyDormActivity" />
+
     </application>
 
 </manifest>
